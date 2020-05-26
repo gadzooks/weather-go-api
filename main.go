@@ -1,18 +1,15 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
+
+	"github.com/karwande/weather-api-go/config"
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Welcome to my website!")
-	})
+	r := config.NewRouter()
 
-	fs := http.FileServer(http.Dir("static/"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	config.AddAPISubRouterForPlaces(r)
 
-	http.ListenAndServe(":80", nil)
-
+	http.ListenAndServe(":80", r)
 }

@@ -23,7 +23,11 @@ go build main.go from root dir
     - connecting to mongodb to get props   
     - JWT auth ? for service to service authentication
     - use different envs : dev, staging, prod
-    - tests
+    - unit tests
+    - postman tests
+    - newman tests
+    - swagger
+    
     
 ## order of implementation : 
 - CRUD operations for location config, in memory
