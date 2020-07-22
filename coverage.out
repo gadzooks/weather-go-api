@@ -1,0 +1,12 @@
+mode: count
+github.com/karwande/weather-api-go/client/storage_client.go:56.39,61.2 1 2
+github.com/karwande/weather-api-go/client/storage_client.go:63.91,64.23 1 1
+github.com/karwande/weather-api-go/client/storage_client.go:67.2,68.16 2 1
+github.com/karwande/weather-api-go/client/storage_client.go:73.2,79.21 6 1
+github.com/karwande/weather-api-go/client/storage_client.go:64.23,66.3 1 0
+github.com/karwande/weather-api-go/client/storage_client.go:68.16,71.3 2 0
+github.com/karwande/weather-api-go/client/storage_client.go:82.95,83.25 1 1
+github.com/karwande/weather-api-go/client/storage_client.go:86.2,87.16 2 1
+github.com/karwande/weather-api-go/client/storage_client.go:92.2,98.21 6 1
+github.com/karwande/weather-api-go/client/storage_client.go:83.25,85.3 1 0
+github.com/karwande/weather-api-go/client/storage_client.go:87.16,90.3 2 0

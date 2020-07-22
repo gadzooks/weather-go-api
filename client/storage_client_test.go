@@ -7,7 +7,7 @@ func TestStorageClientImpl_QueryLocations(t *testing.T) {
 	client := NewStorageClient()
 
 	//Act
-	locations, err := client.QueryLocations("../data/")
+	locations, err := client.QueryLocations("data/")
 
 	//Assert
 	if err != nil {
@@ -24,7 +24,7 @@ func TestStorageClientImpl_QueryRegions(t *testing.T) {
 	client := NewStorageClient()
 
 	//Act
-	regions, err := client.QueryRegions("../data/")
+	regions, err := client.QueryRegions("data/")
 
 	//Assert
 	if err != nil {

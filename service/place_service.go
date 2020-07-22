@@ -25,7 +25,7 @@ func (r NewPlaceServiceImpl) GetLocations() ([]model.Location, error) {
 		return nil, err
 	}
 
-	results := make([]model.Location, len(loc))
+	results := make([]model.Location, 0, len(loc))
 	for _, v := range loc {
 		results = append(results, model.Location(v))
 	}

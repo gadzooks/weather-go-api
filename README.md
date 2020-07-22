@@ -13,6 +13,14 @@ Sample Go api to learn Go
 
 go build main.go from root dir
 
+## test
+we use gomock and mocken
+go get github.com/golang/mock/gomock
+go get github.com/golang/mock/mockgen
+
+## swagger
+https://goswagger.io/
+
 ## goals of this service
 - create sample CRUD REST api in Go which has
     - well defined classes for model, domain, controller

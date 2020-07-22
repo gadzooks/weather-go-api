@@ -62,9 +62,9 @@ func NewStorageClient() StorageClient {
 
 func (lci *StorageClientImpl) QueryRegions(dataDir string) (map[string]RegionData, error) {
 	if lci.regionsLoaded {
-		return lci.Regions, lci.locationError
+		return lci.Regions, lci.regionError
 	}
-	content, err := ioutil.ReadFile(dataDir + "/regions.yml")
+	content, err := ioutil.ReadFile("../" + dataDir + "/regions.yml")
 	if err != nil {
 		lci.regionError = err
 		log.Fatal(err)
@@ -81,12 +81,12 @@ func (lci *StorageClientImpl) QueryRegions(dataDir string) (map[string]RegionDat
 
 func (lci *StorageClientImpl) QueryLocations(dataDir string) (map[string]LocationData, error) {
 	if lci.locationsLoaded {
-		return lci.Locations, lci.regionError
+		return lci.Locations, lci.locationError
 	}
-	content, err := ioutil.ReadFile(dataDir + "/locations.yml")
+	content, err := ioutil.ReadFile("../" + dataDir + "/locations.yml")
 	if err != nil {
-		log.Fatal(err)
 		lci.locationError = err
+		return lci.Locations, lci.locationError
 	}
 
 	var results map[string]LocationData

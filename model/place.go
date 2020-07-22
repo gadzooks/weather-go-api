@@ -1,12 +1,12 @@
 package model
 
 type Location struct {
-	Name        string
-	Region      string
-	Description string
-	Latitude    float64
-	Longitude   float64
-	SubRegion   string
+	Name        string  `json:"name"`
+	Region      string  `json:"region"`
+	Description string  `json:"description"`
+	Latitude    float64 `json:"latitude"`
+	Longitude   float64 `json:"longitude"`
+	SubRegion   string  `json:"subRegion"`
 }
 
 /*
@@ -15,7 +15,7 @@ snowqualmie_region:
   description: 'Snowqualmie Region'
 */
 type Region struct {
-	Name        string
-	SearchKey   string
-	Description string
+	Name        string `json:"name"`
+	SearchKey   string `json:"searchKey"`
+	Description string `json:"description"`
 }

@@ -25,6 +25,9 @@ build-local:
 	rm -rf ./bin
 	env GOOS=darwin GOARCH=amd64 go build -o bin/dist/sample-go-api
 
+mockgen:
+	mockgen -source=controller/place_controller.go -destination=controller/place_controller_mock.go -package=controller
+
 build:
 	rm -rf ./bin
 	env GOOS=linux GOARCH=amd64 go build -o bin/dist/sample-go-api
