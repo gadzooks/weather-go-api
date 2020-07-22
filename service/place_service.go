@@ -40,7 +40,7 @@ func (r NewPlaceServiceImpl) GetRegions() ([]model.Region, error) {
 		return nil, err
 	}
 
-	results := make([]model.Region, len(loc))
+	results := make([]model.Region, 0, len(loc))
 	for k, v := range loc {
 		results = append(results, model.Region{Name: k, SearchKey: v.SearchKey, Description: v.Description})
 	}

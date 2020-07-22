@@ -21,9 +21,16 @@ swagger-view: swagger
 	swagger serve ./.docs/swagger.json
 
 # build using prod targets
+build-local:
+	rm -rf ./bin
+	env GOOS=darwin GOARCH=amd64 go build -o bin/dist/sample-go-api
+
 build:
 	rm -rf ./bin
 	env GOOS=linux GOARCH=amd64 go build -o bin/dist/sample-go-api
+
+run:
+	./bin/dist/sample-go-api
 
 # run unit tests (all)
 unit-test:
