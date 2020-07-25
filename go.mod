@@ -1,4 +1,4 @@
-module github.com/karwande/weather-api-go
+module github.com/gadzooks/weather-api-go
 
 go 1.14
 

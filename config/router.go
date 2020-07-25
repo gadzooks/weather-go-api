@@ -1,10 +1,10 @@
 package config
 
 import (
+	"github.com/gadzooks/weather-api-go/client"
+	"github.com/gadzooks/weather-api-go/controller"
+	"github.com/gadzooks/weather-api-go/service"
 	"github.com/gorilla/mux"
-	"github.com/karwande/weather-api-go/client"
-	"github.com/karwande/weather-api-go/controller"
-	"github.com/karwande/weather-api-go/service"
 )
 
 // NewRouter creates new base router
@@ -20,7 +20,7 @@ func AddAPISubRouterForPlaces(base *mux.Router) {
 	api := base.PathPrefix("/api").Subrouter()
 
 	// create repo object
-	client := client.NewStorageClient()
+	client := client.NewStorageClient("data")
 	// create service object
 	svc := service.NewPlaceService(client)
 	// create controller object

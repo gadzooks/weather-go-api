@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/karwande/weather-api-go/client"
-	"github.com/karwande/weather-api-go/model"
+	"github.com/gadzooks/weather-api-go/client"
+	"github.com/gadzooks/weather-api-go/model"
 )
 
 // PlaceService is responsible for querying locations

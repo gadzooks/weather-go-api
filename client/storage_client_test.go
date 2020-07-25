@@ -4,7 +4,8 @@ import "testing"
 
 func TestStorageClientImpl_QueryLocations(t *testing.T) {
 	//Arrange
-	client := NewStorageClient()
+	dataDir := "../data"
+	client := NewStorageClient(dataDir)
 
 	//Act
 	locations, err := client.QueryLocations("data/")
@@ -21,7 +22,8 @@ func TestStorageClientImpl_QueryLocations(t *testing.T) {
 
 func TestStorageClientImpl_QueryRegions(t *testing.T) {
 	//Arrange
-	client := NewStorageClient()
+	dataDir := "../data"
+	client := NewStorageClient(dataDir)
 
 	//Act
 	regions, err := client.QueryRegions("data/")

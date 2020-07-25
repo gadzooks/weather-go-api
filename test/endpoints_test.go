@@ -2,10 +2,10 @@ package test
 
 import (
 	"encoding/json"
-	"github.com/karwande/weather-api-go/client"
-	"github.com/karwande/weather-api-go/controller"
-	"github.com/karwande/weather-api-go/model"
-	"github.com/karwande/weather-api-go/service"
+	"github.com/gadzooks/weather-api-go/client"
+	"github.com/gadzooks/weather-api-go/controller"
+	"github.com/gadzooks/weather-api-go/model"
+	"github.com/gadzooks/weather-api-go/service"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -17,7 +17,7 @@ func TestGetLocations(t *testing.T) {
 		t.Fatal(err)
 	}
 	rr := httptest.NewRecorder()
-	storageClient := client.NewStorageClient()
+	storageClient := client.NewStorageClient("../data")
 	svc := service.NewPlaceService(storageClient)
 	placesCtrl := controller.NewPlaceController(svc)
 
@@ -47,7 +47,7 @@ func TestGetRegions(t *testing.T) {
 		t.Fatal(err)
 	}
 	rr := httptest.NewRecorder()
-	storageClient := client.NewStorageClient()
+	storageClient := client.NewStorageClient("../data")
 	svc := service.NewPlaceService(storageClient)
 	placesCtrl := controller.NewPlaceController(svc)
 

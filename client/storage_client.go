@@ -15,6 +15,7 @@ type StorageClient interface {
 
 // StorageClientImpl implements LocationClient interface
 type StorageClientImpl struct {
+	DataDir         string
 	Locations       map[string]LocationData
 	locationsLoaded bool
 	locationError   error
@@ -53,10 +54,11 @@ type RegionData struct {
 	Description string `yaml:"description"`
 }
 
-func NewStorageClient() StorageClient {
+func NewStorageClient(dataDir string) StorageClient {
 	return &StorageClientImpl{
 		locationsLoaded: false,
 		regionsLoaded:   false,
+		DataDir:         dataDir,
 	}
 }
 
@@ -64,7 +66,7 @@ func (lci *StorageClientImpl) QueryRegions(dataDir string) (map[string]RegionDat
 	if lci.regionsLoaded {
 		return lci.Regions, lci.regionError
 	}
-	content, err := ioutil.ReadFile("../" + dataDir + "/regions.yml")
+	content, err := ioutil.ReadFile(lci.DataDir + "/regions.yml")
 	if err != nil {
 		lci.regionError = err
 		log.Fatal(err)
@@ -83,7 +85,7 @@ func (lci *StorageClientImpl) QueryLocations(dataDir string) (map[string]Locatio
 	if lci.locationsLoaded {
 		return lci.Locations, lci.locationError
 	}
-	content, err := ioutil.ReadFile("../" + dataDir + "/locations.yml")
+	content, err := ioutil.ReadFile(lci.DataDir + "/locations.yml")
 	if err != nil {
 		lci.locationError = err
 		return lci.Locations, lci.locationError
