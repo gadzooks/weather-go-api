@@ -29,7 +29,9 @@ mockgen:
 	mockgen -source=controller/place_controller.go -destination=controller/place_controller_mock.go -package=controller
 
 build:
+	mkdir -p bin
 	rm -rf ./bin
+	mkdir -p bin/dist
 	env GOOS=linux GOARCH=amd64 go build -o bin/dist/sample-go-api
 
 run:

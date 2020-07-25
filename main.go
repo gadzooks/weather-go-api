@@ -12,7 +12,8 @@ func main() {
 
 	config.AddAPISubRouterForPlaces(r)
 
-	err := http.ListenAndServe(":80", r)
+	log.Println("starting server at 8080")
+	err := http.ListenAndServe(":8080", r)
 	if err != nil {
 		log.Fatalf("error running server : %v", err)
 	}
