@@ -1,0 +1,45 @@
+{
+  "swagger": "2.0",
+  "paths": {
+    "/locations": {
+      "get": {
+        "description": "Finds a location set",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "locations"
+        ],
+        "operationId": "findLocations",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/location"
+          }
+        }
+      }
+    },
+    "/regions": {
+      "get": {
+        "description": "Finds a region set",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "regions"
+        ],
+        "operationId": "findRegions",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/region"
+          }
+        }
+      }
+    }
+  }
+}

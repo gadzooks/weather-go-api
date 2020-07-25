@@ -38,7 +38,7 @@ func AddAPISubRouterForPlaces(base *mux.Router) {
 	//
 	// Responses:
 	// 200: []location
-	api.HandleFunc("/locations", placesCtrl.FindLocations).Methods("GET") // FindLocations swagger:route GET /locations locations findSamples
+	api.HandleFunc("/locations", placesCtrl.FindLocations).Methods("GET")
 
 	// FindRegions swagger:route GET /regions regions findRegions
 	// Finds a region set

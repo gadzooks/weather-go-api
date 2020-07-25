@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gadzooks/weather-go-api/config"
@@ -11,5 +12,9 @@ func main() {
 
 	config.AddAPISubRouterForPlaces(r)
 
-	http.ListenAndServe(":80", r)
+	err := http.ListenAndServe(":80", r)
+	if err != nil {
+		log.Fatalf("error running server : %v", err)
+	}
+
 }
