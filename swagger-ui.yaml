@@ -1,0 +1,93 @@
+{
+  "swagger": "2.0",
+  "info": {
+    title: "Sample REST Api",
+    description: "API to get locations and regions for weather UI",
+    version: "0.0.1",
+  },
+  basePath: "/v1",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  definitions: {
+    Region: {
+      properties: {
+        name: {
+          type: "string",
+          description: ""
+        },
+        searchKey: {
+          type: string,
+          description: "",
+        },
+        description: {
+          type: string,
+          description: "description of region",
+        },
+      },
+    },
+    Location: {
+      properties: {
+        name: {
+          type: string
+        },
+        region: {
+          type: string
+        },
+        description: {
+          type: string
+        },
+        latitude: {
+          type: number
+        },
+        longitude: {
+          type: number
+        },
+        subRegion: {
+          type: string
+        }
+      }
+    }
+  },
+
+  "paths": {
+    "/locations": {
+      "get": {
+        "description": "Finds a location set",
+        "tags": [
+          "locations"
+        ],
+        "operationId": "findLocations",
+        "responses": {
+          "200": {
+            description: "OK",
+            schema: {
+              "$ref": "#/definitions/Location"
+            }
+          }
+        }
+      }
+    },
+    "/regions": {
+      "get": {
+        "description": "Finds a region set",
+        "tags": [
+          "regions"
+        ],
+        "operationId": "findRegions",
+        "responses": {
+          "200": {
+            description: "OK",
+            schema: {
+              "$ref": "#/definitions/Region"
+            }
+          }
+        }
+      }
+    }
+  },
+
+}
