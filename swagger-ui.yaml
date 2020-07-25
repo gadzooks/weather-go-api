@@ -16,39 +16,61 @@
     Region: {
       properties: {
         name: {
-          type: "string",
-          description: ""
+          type: string,
+          description: "unique identifier for region"
         },
         searchKey: {
           type: string,
-          description: "",
+          description: "key used in searches on WTA",
         },
         description: {
           type: string,
-          description: "description of region",
+          description: "descriptive region label",
         },
       },
+      example: {
+        name: "central_cascades",
+        searchKey: "12345567",
+        description: "Central Cascades",
+      }
+
     },
     Location: {
       properties: {
         name: {
-          type: string
+          type: string,
+          description: ""
         },
         region: {
-          type: string
+          type: string,
+          description: ""
         },
         description: {
-          type: string
+          type: string,
+          description: ""
         },
         latitude: {
-          type: number
+          type: number,
+          format: float64,
+          description: ""
         },
         longitude: {
-          type: number
+          type: number,
+          format: float64,
+          description: ""
         },
         subRegion: {
-          type: string
+          type: string,
+          description: ""
         }
+      },
+      example: {
+        name: "gold bar",
+        region: "centraol_cascades",
+        description: "Stevents Pass - West",
+        latitude: 47.8090,
+        longitude: -121.5738,
+        subRegion: "12344555",
       }
     }
   },
@@ -65,8 +87,11 @@
           "200": {
             description: "OK",
             schema: {
-              "$ref": "#/definitions/Location"
-            }
+              type: array,
+              items: {
+                "$ref": "#/definitions/Location"
+              }
+            },
           }
         }
       }
@@ -82,7 +107,10 @@
           "200": {
             description: "OK",
             schema: {
-              "$ref": "#/definitions/Region"
+              type: array,
+              items: {
+                "$ref": "#/definitions/Region"
+              }
             }
           }
         }
