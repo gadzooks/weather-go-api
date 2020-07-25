@@ -1,12 +1,12 @@
 mode: count
-github.com/gadzooks/weather-api-go/client/storage_client.go:57.53,63.2 1 2
-github.com/gadzooks/weather-api-go/client/storage_client.go:65.91,66.23 1 1
-github.com/gadzooks/weather-api-go/client/storage_client.go:69.2,70.16 2 1
-github.com/gadzooks/weather-api-go/client/storage_client.go:75.2,81.21 6 1
-github.com/gadzooks/weather-api-go/client/storage_client.go:66.23,68.3 1 0
-github.com/gadzooks/weather-api-go/client/storage_client.go:70.16,73.3 2 0
-github.com/gadzooks/weather-api-go/client/storage_client.go:84.95,85.25 1 1
-github.com/gadzooks/weather-api-go/client/storage_client.go:88.2,89.16 2 1
-github.com/gadzooks/weather-api-go/client/storage_client.go:94.2,100.21 6 1
-github.com/gadzooks/weather-api-go/client/storage_client.go:85.25,87.3 1 0
-github.com/gadzooks/weather-api-go/client/storage_client.go:89.16,92.3 2 0
+github.com/gadzooks/weather-go-api/client/storage_client.go:57.53,63.2 1 2
+github.com/gadzooks/weather-go-api/client/storage_client.go:65.91,66.23 1 1
+github.com/gadzooks/weather-go-api/client/storage_client.go:69.2,70.16 2 1
+github.com/gadzooks/weather-go-api/client/storage_client.go:75.2,81.21 6 1
+github.com/gadzooks/weather-go-api/client/storage_client.go:66.23,68.3 1 0
+github.com/gadzooks/weather-go-api/client/storage_client.go:70.16,73.3 2 0
+github.com/gadzooks/weather-go-api/client/storage_client.go:84.95,85.25 1 1
+github.com/gadzooks/weather-go-api/client/storage_client.go:88.2,89.16 2 1
+github.com/gadzooks/weather-go-api/client/storage_client.go:94.2,100.21 6 1
+github.com/gadzooks/weather-go-api/client/storage_client.go:85.25,87.3 1 0
+github.com/gadzooks/weather-go-api/client/storage_client.go:89.16,92.3 2 0

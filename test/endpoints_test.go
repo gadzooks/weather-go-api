@@ -2,10 +2,10 @@ package test
 
 import (
 	"encoding/json"
-	"github.com/gadzooks/weather-api-go/client"
-	"github.com/gadzooks/weather-api-go/controller"
-	"github.com/gadzooks/weather-api-go/model"
-	"github.com/gadzooks/weather-api-go/service"
+	"github.com/gadzooks/weather-go-api/client"
+	"github.com/gadzooks/weather-go-api/controller"
+	"github.com/gadzooks/weather-go-api/model"
+	"github.com/gadzooks/weather-go-api/service"
 	"net/http"
 	"net/http/httptest"
 	"testing"

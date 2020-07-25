@@ -1,4 +1,4 @@
-module github.com/gadzooks/weather-api-go
+module github.com/gadzooks/weather-go-api
 
 go 1.14
 

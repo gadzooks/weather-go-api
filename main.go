@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/gadzooks/weather-api-go/config"
+	"github.com/gadzooks/weather-go-api/config"
 )
 
 func main() {

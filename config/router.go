@@ -1,9 +1,9 @@
 package config
 
 import (
-	"github.com/gadzooks/weather-api-go/client"
-	"github.com/gadzooks/weather-api-go/controller"
-	"github.com/gadzooks/weather-api-go/service"
+	"github.com/gadzooks/weather-go-api/client"
+	"github.com/gadzooks/weather-go-api/controller"
+	"github.com/gadzooks/weather-go-api/service"
 	"github.com/gorilla/mux"
 )
 

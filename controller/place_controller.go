@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/gadzooks/weather-api-go/service"
+	"github.com/gadzooks/weather-go-api/service"
 )
 
 type PlaceController interface {
