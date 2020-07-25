@@ -21,6 +21,9 @@ go get github.com/golang/mock/mockgen
 ## swagger
 https://goswagger.io/
 
+## dependencies
+we use dep to mange dependencies
+
 ## goals of this service
 - create sample CRUD REST api in Go which has
     - well defined classes for model, domain, controller
