@@ -2,7 +2,7 @@ version: '3'
 services:
   app:
     container_name: weather_config
-    build: .
+    build: . # dir where Dockerfile is located
     ports:
       - 8080:8080
     restart: on-failure
@@ -13,6 +13,18 @@ services:
       # - fullstack-mysql           # Uncomment this when using mysql.
     networks:
       - fullstack
+
+# from https://github.com/elevennines-inc/swagger-all-in-one-docker-compose/blob/master/docker-compose.yml
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: "swagger-ui"
+    ports:
+      - "8082:8080"
+    volumes:
+      - ./swagger-ui.yaml:/api.yaml
+    environment:
+      SWAGGER_JSON: /api.yaml
+      # API_URL: ""
 
   # fullstack-mysql:
   #   image: mysql:5.7
