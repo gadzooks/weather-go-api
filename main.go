@@ -15,6 +15,7 @@ func main() {
 
 	// add middleware
 	handler := middleware.SetupGlobalMiddleware(r)
+	handler = middleware.NewLogger(handler)
 
 	log.Println("starting server at 8080")
 	err := http.ListenAndServe(":8080", handler)
