@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gadzooks/weather-go-api/middleware"
 	"log"
 	"net/http"
 
@@ -12,8 +13,11 @@ func main() {
 
 	config.AddAPISubRouterForPlaces(r)
 
+	// add middleware
+	handler := middleware.SetupGlobalMiddleware(r)
+
 	log.Println("starting server at 8080")
-	err := http.ListenAndServe(":8080", r)
+	err := http.ListenAndServe(":8080", handler)
 	if err != nil {
 		log.Fatalf("error running server : %v", err)
 	}
