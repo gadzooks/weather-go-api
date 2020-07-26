@@ -12,13 +12,13 @@ dependencies-update:
 
 # generate swagger.json
 swagger:
-	rm -f ./.docs/swagger.json
-	go generate
-	swagger validate ./.docs/swagger.json
+	#rm -f swagger/swagger-ui.yaml
+	#swagger generate spec -o swagger/swagger-ui.yaml
+	swagger validate swagger-ui.yaml
 
 # view swagger documentation locally
 swagger-view: swagger
-	swagger serve ./.docs/swagger.json
+	swagger serve swagger-ui.yaml
 
 # build using prod targets
 build-local:
