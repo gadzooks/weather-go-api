@@ -1,3 +1,4 @@
+# https://editor.swagger.io/
 {
   "swagger": "2.0",
   "info": {
@@ -5,6 +6,10 @@
     description: "API to get locations and regions for weather UI",
     version: "0.0.1",
   },
+  host: "localhost:8080",
+  schemes: [
+    "http"
+  ],
   basePath: "/v1",
   "consumes": [
     "application/json"

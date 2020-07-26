@@ -25,6 +25,8 @@ services:
     environment:
       SWAGGER_JSON: /api.yaml
       # API_URL: ""
+    networks:
+      - fullstack
 
   # fullstack-mysql:
   #   image: mysql:5.7

@@ -17,7 +17,7 @@ func NewRouter() *mux.Router {
 
 func AddAPISubRouterForPlaces(base *mux.Router) {
 	// restrict to all urls under /api
-	api := base.PathPrefix("/api").Subrouter()
+	api := base.PathPrefix("/v1").Subrouter()
 
 	// create repo object
 	client := client.NewStorageClient("data")
