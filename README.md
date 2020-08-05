@@ -3,15 +3,15 @@
 Sample REST Go api to get locations and regions to be used by Ruby on Rails weather website.
 
 ## Goals of this service
-- Create sample CRUD REST api in Go which has
-    - Follow REST naming conventions
-    - Use swagger for documentation
-    - Well defined classes for model, domain, controller
-    - All commands can be run via Makefile targets
-    - Deploy service and swagger docs via docker
-    - Code coverage, unit and integration tests
+Create sample CRUD REST api in Go which has :
+- Follow REST naming conventions
+- Use swagger for documentation
+- Well defined classes for model, domain, controller
+- All commands can be run via Makefile targets
+- Deploy service and swagger docs via docker
+- Code coverage, unit and integration tests
 
-### Design Patterns / Best practices
+## Design Patterns / Best practices
 
 ### Use `docker-compose` to build and run `go service` and `swagger`
 - https://github.com/gadzooks/weather-go-api/blob/master/docker-compose.yml
