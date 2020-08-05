@@ -1,22 +1,15 @@
 # Weather Config REST API - Go REST API
 
-Sample REST Go api
+Sample REST Go api to get locations and regions to be used by Ruby on Rails weather website.
 
 ## Goals of this service
 - Create sample CRUD REST api in Go which has
     - Follow REST naming conventions
-    - use swagger for documentation
-    - well defined classes for model, domain, controller
-    - all commands can be run via Makefile targets
-    - deploy service and swagger docs via docker
-    - logging, error handling
-    - code coverate, unit and integration tests
-- Todo
-    - postman and newman tests
-    - deploy with kubernetes, alongside other apps
-    - use different envs : dev, staging, prod
-    - JWT auth ? for service to service authentication
-    - connecting to mongodb to get props   
+    - Use swagger for documentation
+    - Well defined classes for model, domain, controller
+    - All commands can be run via Makefile targets
+    - Deploy service and swagger docs via docker
+    - Code coverage, unit and integration tests
 
 ### Design Patterns / Best practices
 
@@ -148,6 +141,12 @@ https://github.com/gadzooks/weather-go-api/blob/master/Makefile
 #### dependencies
 we use `dep` to mange dependencies
 
-### code coverage via `go test`
+#### code coverage via `go test`
 https://github.com/gadzooks/weather-go-api/blob/master/coverage.out
 
+#### Todo
+- postman and newman tests
+- deploy with kubernetes, alongside other apps
+- use different envs : dev, staging, prod
+- JWT auth ? for service to service authentication
+- connecting to mongodb to get props   
