@@ -6,7 +6,7 @@ Sample REST Go api to get locations and regions to be used by Ruby on Rails weat
 Create sample CRUD REST api in Go which has :
 - Follow REST naming conventions
 - Use swagger for documentation
-- Well defined classes for model, domain, controller
+- Well defined interfaces for model, domain, controller
 - All commands can be run via Makefile targets
 - Deploy service and swagger docs via docker
 - Code coverage, unit and integration tests
