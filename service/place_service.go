@@ -5,7 +5,7 @@ import (
 	"github.com/gadzooks/weather-go-api/model"
 )
 
-// PlaceService is responsible for querying locations
+// PlaceService is responsible for querying locations and regions
 type PlaceService interface {
 	GetLocations() ([]model.Location, error)
 	GetRegions() ([]model.Region, error)

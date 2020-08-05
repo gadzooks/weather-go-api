@@ -1,46 +1,153 @@
 # Weather Config REST API - Go REST API
 
-Sample Go api to learn Go
+Sample REST Go api
 
-## dirs
+## Goals of this service
+- Create sample CRUD REST api in Go which has
+    - Follow REST naming conventions
+    - use swagger for documentation
+    - well defined classes for model, domain, controller
+    - all commands can be run via Makefile targets
+    - deploy service and swagger docs via docker
+    - logging, error handling
+    - code coverate, unit and integration tests
+- Todo
+    - postman and newman tests
+    - deploy with kubernetes, alongside other apps
+    - use different envs : dev, staging, prod
+    - JWT auth ? for service to service authentication
+    - connecting to mongodb to get props   
 
-- controller : REST controller
-- model : Data Transfer Objects
-- domain : Provide functionality based on DTO types
-- service : Business logic lives here
+### Design Patterns / Best practices
 
-## build
+### Use `docker-compose` to build and run `go service` and `swagger`
+- https://github.com/gadzooks/weather-go-api/blob/master/docker-compose.yml
+- https://github.com/gadzooks/weather-go-api/blob/master/Dockerfile
 
-go build main.go from root dir
+#### Use middleware to handle tasks like CORS, logging request performance etc
+```go
+//ServeHTTP handles the request by passing it to the real
+//handler and logging the request details
+func (l *Logger) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	start := time.Now()
+	l.handler.ServeHTTP(w, r)
+	log.Printf("%s %s %v", r.Method, r.URL.Path, time.Since(start))
+}
+```
 
-## test
-we use gomock and mocken
+#### Follow REST naming convention and swagger documentation style
+```go
+	// FindLocations swagger:route GET /locations locations findLocations
+	//
+	// Finds a location set
+	//
+	// Consumes:
+	// - application/json
+	//
+	// Produces:
+	// - application/json
+	//
+	// Responses:
+	// 200: []location
+	api.HandleFunc("/locations", placesCtrl.FindLocations).Methods("GET")
+```
+
+#### Rest controller(s) expose endpoints via PlaceController `interface`
+```go
+type PlaceController interface {
+	FindLocations(w http.ResponseWriter, r *http.Request)
+	FindRegions(w http.ResponseWriter, r *http.Request)
+}
+```
+
+#### Service `package` handles business logic via PlaceService `interface`
+```go
+// PlaceService is responsible for querying locations and regions
+type PlaceService interface {
+	GetLocations() ([]model.Location, error)
+	GetRegions() ([]model.Region, error)
+}
+
+// NewPlaceServiceImpl implements NewPlaceService
+type NewPlaceServiceImpl struct {
+	client client.StorageClient
+}
+```
+
+#### Client `package` handles external clients
+```go
+// StorageClient queries location db
+type StorageClient interface {
+	QueryLocations(dataDir string) (map[string]LocationData, error)
+	QueryRegions(dataDir string) (map[string]RegionData, error)
+}
+```
+
+#### Model `pacakge` contains Data Transfer Objects (DTOs)
+```go
+/*
+snowqualmie_region:
+  search_key: '04d37e830680c65b61df474e7e655d64'
+  description: 'Snowqualmie Region'
+*/
+type Region struct {
+	Name        string `json:"name"`
+	SearchKey   string `json:"searchKey"`
+	Description string `json:"description"`
+}
+```
+
+#### Testing
+- we use gomock and mocken
+```shell script
+# to install
 go get github.com/golang/mock/gomock
 go get github.com/golang/mock/mockgen
+mockgen -source=controller/place_controller.go -destination=controller/place_controller_mock.go -package=controller
+```
+- example integration test : 
+```go
+func TestGetLocations(t *testing.T) {
+	req, err := http.NewRequest("GET", "/locations", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	rr := httptest.NewRecorder()
+	storageClient := client.NewStorageClient("../data")
+	svc := service.NewPlaceService(storageClient)
+	placesCtrl := controller.NewPlaceController(svc)
 
-## swagger
+	handler := http.HandlerFunc(placesCtrl.FindLocations)
+	handler.ServeHTTP(rr, req)
+	if status := rr.Code; status != http.StatusOK {
+		t.Fatalf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	// Check the response body is what we expect.
+	expected := 26
+	var result *[]model.Location
+	err = json.Unmarshal(rr.Body.Bytes(), &result)
+	if err != nil {
+		t.Fatalf("error unmarshaling results : %v", err)
+	}
+	if len(*result) != expected {
+		t.Fatalf("got %v want %v",
+			len(*result), expected)
+	}
+}
+
+```
+
+#### we use swagger to generate living documentation
 https://goswagger.io/
 
-## dependencies
-we use dep to mange dependencies
+#### build / generate mocks / run tests is via `Makefile` targets
+https://github.com/gadzooks/weather-go-api/blob/master/Makefile
 
-## goals of this service
-- create sample CRUD REST api in Go which has
-    - well defined classes for model, domain, controller
-    - Makefile
-    - deploy with kubernetes, along side rails app
-    - logging, error handling
-    - log storage options
-    - connecting to mongodb to get props   
-    - JWT auth ? for service to service authentication
-    - use different envs : dev, staging, prod
-    - unit tests
-    - postman tests
-    - newman tests
-    - swagger
-    
-    
-## order of implementation : 
-- CRUD operations for location config, in memory
-- store CRUD in mongodb
-- 
+#### dependencies
+we use `dep` to mange dependencies
+
+### code coverage via `go test`
+https://github.com/gadzooks/weather-go-api/blob/master/coverage.out
+
