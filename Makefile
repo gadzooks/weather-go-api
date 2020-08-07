@@ -25,6 +25,7 @@ build-local:
 	rm -rf ./bin
 	env GOOS=darwin GOARCH=amd64 go build -o bin/dist/sample-go-api
 
+# GO111MODULE=on go get github.com/golang/mock/mockgen@v1.4.3
 mockgen:
 	mockgen -source=controller/place_controller.go -destination=controller/place_controller_mock.go -package=controller
 	mockgen -source=controller/v2/place_controller.go -destination=controller/v2/place_controller_mock.go -package=v2

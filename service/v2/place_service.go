@@ -9,8 +9,8 @@ import (
 type PlaceService interface {
 	GetLocations() ([]model.Location, error)
 	GetRegions() ([]model.Region, error)
-	SeedLocations() ([]model.Location, error)
-	SeedRegions() ([]model.Region, error)
+	SeedLocations([]model.Location) ([]model.Location, error)
+	SeedRegions([]model.Region) ([]model.Region, error)
 }
 
 // PlaceServiceImpl implements PlaceService
@@ -22,7 +22,9 @@ func (r PlaceServiceImpl) GetLocations() ([]model.Location, error) {
 	return nil, nil
 }
 
-func (r PlaceServiceImpl) SeedLocations() ([]model.Location, error) {
+func (r PlaceServiceImpl) SeedLocations(data []model.Location) ([]model.Location, error) {
+	// loc, err := r.client.SeedLocations(data)
+
 	return nil, nil
 }
 
@@ -30,8 +32,9 @@ func (r PlaceServiceImpl) GetRegions() ([]model.Region, error) {
 	return nil, nil
 }
 
-func (r PlaceServiceImpl) SeedRegions() ([]model.Region, error) {
+func (r PlaceServiceImpl) SeedRegions(data []model.Region) ([]model.Region, error) {
 	return nil, nil
+	//reg, err := r.client.SeedRegions(data)
 }
 
 // NewPlaceService creates new instance of PlaceService

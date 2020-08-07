@@ -5,8 +5,6 @@ import (
 	"net/http"
 )
 
-func SetupGlobalMiddleware(handler http.Handler) http.Handler {
-	handleCORS := cors.Default().Handler
-
-	return handleCORS(handler)
+func WithCors(handler http.Handler) http.Handler {
+	return cors.Default().Handler(handler)
 }
