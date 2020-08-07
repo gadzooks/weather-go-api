@@ -8,6 +8,7 @@ import (
 	"github.com/gadzooks/weather-go-api/service"
 	v2Service "github.com/gadzooks/weather-go-api/service/v2"
 	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 // NewRouter creates new base router
@@ -20,13 +21,13 @@ func NewRouter() *mux.Router {
 
 const storageDataDir = "data"
 
-func AddV2APISubRouterForPlaces(base *mux.Router) {
+func AddV2APISubRouterForPlaces(base *mux.Router, mongoClient *mongo.Client) {
 	// restrict to all urls under /api
 	api := base.PathPrefix("/v2").Subrouter()
 
 	// create repo object
 	v1Client := client.NewStorageClient(storageDataDir)
-	v2Client := v2Client.NewStorageClient("")
+	v2Client := v2Client.NewStorageClient(mongoClient)
 	// create service object
 	v1Service := service.NewPlaceService(v1Client)
 	v2Service := v2Service.NewPlaceService(v2Client)
@@ -60,7 +61,7 @@ func AddV2APISubRouterForPlaces(base *mux.Router) {
 	// 200: []region
 	api.HandleFunc("/regions", placesCtrl.FindRegions).Methods("GET")
 
-	// SeedRegions swagger:route POST /regions regions findRegions
+	// CreateRegion swagger:route POST /regions regions findRegions
 	// Seeds a region set with default values
 	//
 	// Consumes:

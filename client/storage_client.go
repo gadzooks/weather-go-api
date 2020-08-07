@@ -1,6 +1,7 @@
 package client
 
 import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"io/ioutil"
 	"log"
 
@@ -35,14 +36,16 @@ gold bar:
   longitude: -121.5738
   sub_region: '637634387ca38685f89162475c7fc1d2'
 */
+//FIXME use model.Location
 // LocationData data returned by storage db service.
 type LocationData struct {
-	Name        string  `yaml:"name"`
-	Region      string  `yaml:"region"`
-	Description string  `yaml:"description"`
-	Latitude    float64 `yaml:"latitude"`
-	Longitude   float64 `yaml:"longitude"`
-	SubRegion   string  `yaml:"sub_region"`
+	ID          primitive.ObjectID `json:"id" bson:"_id"`
+	Name        string             `yaml:"name"`
+	Region      string             `yaml:"region"`
+	Description string             `yaml:"description"`
+	Latitude    float64            `yaml:"latitude"`
+	Longitude   float64            `yaml:"longitude"`
+	SubRegion   string             `yaml:"sub_region"`
 }
 
 /*
@@ -50,10 +53,12 @@ snowqualmie_region:
   search_key: '04d37e830680c65b61df474e7e655d64'
   description: 'Snowqualmie Region'
 */
+//FIXME use model.Region
 // RegionData is data returned by storage db service
 type RegionData struct {
-	SearchKey   string `yaml:"search_key"`
-	Description string `yaml:"description"`
+	ID          primitive.ObjectID `json:"id" bson:"_id"`
+	SearchKey   string             `yaml:"search_key"`
+	Description string             `yaml:"description"`
 }
 
 func NewStorageClient(dataDir string) StorageClient {

@@ -60,23 +60,23 @@ func (mr *MockPlaceControllerMockRecorder) FindRegions(w, r interface{}) *gomock
 // SeedLocations mocks base method
 func (m *MockPlaceController) SeedLocations(w http.ResponseWriter, r *http.Request) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SeedLocations", w, r)
+	m.ctrl.Call(m, "CreateLocation", w, r)
 }
 
 // SeedLocations indicates an expected call of SeedLocations
 func (mr *MockPlaceControllerMockRecorder) SeedLocations(w, r interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SeedLocations", reflect.TypeOf((*MockPlaceController)(nil).SeedLocations), w, r)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateLocation", reflect.TypeOf((*MockPlaceController)(nil).SeedLocations), w, r)
 }
 
 // SeedRegions mocks base method
 func (m *MockPlaceController) SeedRegions(w http.ResponseWriter, r *http.Request) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SeedRegions", w, r)
+	m.ctrl.Call(m, "CreateRegion", w, r)
 }
 
 // SeedRegions indicates an expected call of SeedRegions
 func (mr *MockPlaceControllerMockRecorder) SeedRegions(w, r interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SeedRegions", reflect.TypeOf((*MockPlaceController)(nil).SeedRegions), w, r)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateRegion", reflect.TypeOf((*MockPlaceController)(nil).SeedRegions), w, r)
 }

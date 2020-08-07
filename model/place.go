@@ -1,12 +1,17 @@
 package model
 
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
 type Location struct {
-	Name        string  `json:"name"`
-	Region      string  `json:"region"`
-	Description string  `json:"description"`
-	Latitude    float64 `json:"latitude"`
-	Longitude   float64 `json:"longitude"`
-	SubRegion   string  `json:"subRegion"`
+	ID          primitive.ObjectID `json:"id" bson:"_id"`
+	Name        string             `json:"name" yaml:"name" bson:"name"`
+	Region      string             `json:"region" yaml:"region" bson:"region"`
+	Description string             `json:"description" yaml:"description" bson:"description"`
+	Latitude    float64            `json:"latitude" yaml:"latitude" bson:"latitude"`
+	Longitude   float64            `json:"longitude" yaml:"longitude" bson:"longitude"`
+	SubRegion   string             `json:"subRegion" yaml:"sub_region" bson:"subRegion"`
 }
 
 /*
@@ -15,7 +20,8 @@ snowqualmie_region:
   description: 'Snowqualmie Region'
 */
 type Region struct {
-	Name        string `json:"name"`
-	SearchKey   string `json:"searchKey"`
-	Description string `json:"description"`
+	ID          primitive.ObjectID `json:"id" bson:"_id"`
+	Name        string             `json:"name" yaml:"name" bson:"name"`
+	SearchKey   string             `json:"searchKey" yaml:"search_key" bson:"searchKey"`
+	Description string             `json:"description" yaml:"description" bson:"description"`
 }

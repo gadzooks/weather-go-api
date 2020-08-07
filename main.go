@@ -15,24 +15,34 @@ import (
 	"github.com/gadzooks/weather-go-api/config"
 )
 
+const MongoTimeOutInSeconds = 10
+
 func main() {
 	// show filename and line number in logs
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
+	ctx, cancel := context.WithTimeout(context.Background(), MongoTimeOutInSeconds*time.Second)
+	defer cancel()
+
+	mongoClient := mongoConnect(ctx)
+
 	r := config.NewRouter()
 	config.AddAPISubRouterForPlaces(r)
-	config.AddV2APISubRouterForPlaces(r)
-
-	// connect to mongodb
-	//FIXME get user, passwd, dbname from ENV
+	config.AddV2APISubRouterForPlaces(r, mongoClient)
 
 	// add middleware
 	handler := middleware.WithCors(r)
 	handler = middleware.WithResponseTimeLogging(handler)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
-	defer cancel()
+	log.Println("starting server at 8080")
+	err := http.ListenAndServe(":8080", handler)
+	if err != nil {
+		log.Fatalf("error running server : %v", err)
+	}
 
+}
+
+func mongoConnect(ctx context.Context) *mongo.Client {
 	mongoUser := os.Getenv("MONGO_USER")
 	mongoPass := os.Getenv("MONGO_PWD")
 	mongoDB := os.Getenv("MONGO_DB")
@@ -51,11 +61,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Println("connected to mongo successfully !")
 
-	log.Println("starting server at 8080")
-	err = http.ListenAndServe(":8080", handler)
-	if err != nil {
-		log.Fatalf("error running server : %v", err)
-	}
-
+	return client
 }
