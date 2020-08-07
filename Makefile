@@ -27,6 +27,7 @@ build-local:
 
 mockgen:
 	mockgen -source=controller/place_controller.go -destination=controller/place_controller_mock.go -package=controller
+	mockgen -source=controller/v2/place_controller.go -destination=controller/v2/place_controller_mock.go -package=v2
 
 build:
 	mkdir -p bin

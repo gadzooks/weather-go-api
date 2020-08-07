@@ -9,7 +9,9 @@ import (
 
 // StorageClient queries location db
 type StorageClient interface {
+	//FIXME dataDir is not required
 	QueryLocations(dataDir string) (map[string]LocationData, error)
+	//FIXME dataDir is not required
 	QueryRegions(dataDir string) (map[string]RegionData, error)
 }
 

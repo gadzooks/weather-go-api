@@ -12,6 +12,7 @@ func main() {
 	r := config.NewRouter()
 
 	config.AddAPISubRouterForPlaces(r)
+	config.AddV2APISubRouterForPlaces(r)
 
 	// add middleware
 	handler := middleware.SetupGlobalMiddleware(r)
