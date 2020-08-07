@@ -37,8 +37,8 @@ func (ctrl PlaceControllerImpl) FindRegions(w http.ResponseWriter, r *http.Reque
 	controller.HandleServiceResponse(w, resp, err)
 }
 
-// Seed locations with default data
-func (ctrl PlaceControllerImpl) SeedLocations(w http.ResponseWriter, r *http.Request) {
+// Seed regions with default data
+func (ctrl PlaceControllerImpl) SeedRegions(w http.ResponseWriter, r *http.Request) {
 	regions, err := ctrl.v1Svc.GetRegions()
 	if err != nil {
 		controller.HandleServiceResponse(w, regions, err)
@@ -48,8 +48,8 @@ func (ctrl PlaceControllerImpl) SeedLocations(w http.ResponseWriter, r *http.Req
 	}
 }
 
-// Seed regions with default data
-func (ctrl PlaceControllerImpl) SeedRegions(w http.ResponseWriter, r *http.Request) {
+// Seed locations with default data
+func (ctrl PlaceControllerImpl) SeedLocations(w http.ResponseWriter, r *http.Request) {
 	locations, err := ctrl.v1Svc.GetLocations()
 	if err != nil {
 		controller.HandleServiceResponse(w, locations, err)

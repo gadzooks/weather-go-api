@@ -4,6 +4,7 @@ import (
 	"context"
 	v1 "github.com/gadzooks/weather-go-api/client"
 	"github.com/gadzooks/weather-go-api/model"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"time"
 )
@@ -52,6 +53,7 @@ func (lci *StorageClientImpl) CreateRegion(data model.Region) (model.Region, err
 
 	collection := lci.MongoClient.Database("test").Collection("regions")
 
+	data.ID = primitive.NewObjectID()
 	_, err := collection.InsertOne(ctx, data)
 	if err != nil {
 		return data, err
