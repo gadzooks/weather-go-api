@@ -23,24 +23,16 @@ func NewPlaceController(svc service.PlaceService) PlaceController {
 // Get all locations
 func (ctrl PlaceControllerImpl) FindLocations(w http.ResponseWriter, r *http.Request) {
 	resp, err := ctrl.svc.GetLocations()
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	js, err := json.MarshalIndent(resp, "", "")
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.WriteHeader(http.StatusOK)
-	w.Write(js)
+	HandleServiceResponse(w, resp, err)
 }
 
 // Get all regions
 func (ctrl PlaceControllerImpl) FindRegions(w http.ResponseWriter, r *http.Request) {
 	resp, err := ctrl.svc.GetRegions()
+	HandleServiceResponse(w, resp, err)
+}
+
+func HandleServiceResponse(w http.ResponseWriter, resp interface{}, err error) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

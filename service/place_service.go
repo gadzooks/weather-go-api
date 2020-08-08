@@ -11,7 +11,8 @@ type PlaceService interface {
 	GetRegions() ([]model.Region, error)
 }
 
-// NewPlaceServiceImpl implements NewPlaceService
+// NewPlaceServiceImpl implements PlaceService
+// FIXME rename to PlaceServiceImpl
 type NewPlaceServiceImpl struct {
 	client client.StorageClient
 }

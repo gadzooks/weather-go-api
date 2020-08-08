@@ -19,7 +19,7 @@ func (l *Logger) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s %v", r.Method, r.URL.Path, time.Since(start))
 }
 
-//NewLogger constructs a new Logger middleware handler
-func NewLogger(handlerToWrap http.Handler) *Logger {
+//WithResponseTimeLogging constructs a new Logger middleware handler
+func WithResponseTimeLogging(handlerToWrap http.Handler) *Logger {
 	return &Logger{handlerToWrap}
 }
