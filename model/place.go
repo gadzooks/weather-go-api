@@ -5,7 +5,7 @@ import (
 )
 
 type Location struct {
-	ID          primitive.ObjectID `json:"id" bson:"_id"`
+	ID          primitive.ObjectID `json:"_id" bson:"_id"`
 	Name        string             `json:"name" yaml:"name" bson:"name"`
 	Region      string             `json:"region" yaml:"region" bson:"region"`
 	Description string             `json:"description" yaml:"description" bson:"description"`
@@ -20,7 +20,7 @@ snowqualmie_region:
   description: 'Snowqualmie Region'
 */
 type Region struct {
-	ID          primitive.ObjectID `json:"id" bson:"_id"`
+	ID          primitive.ObjectID `json:"_id" bson:"_id"`
 	Name        string             `json:"name" yaml:"name" bson:"name"`
 	SearchKey   string             `json:"searchKey" yaml:"search_key" bson:"searchKey"`
 	Description string             `json:"description" yaml:"description" bson:"description"`

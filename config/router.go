@@ -48,6 +48,19 @@ func AddV2APISubRouterForPlaces(base *mux.Router, mongoClient *mongo.Client) {
 	// 200: []location
 	api.HandleFunc("/locations", placesCtrl.FindLocations).Methods("GET")
 
+	// CreateLocation swagger:route POST /locations locations findLocations
+	// Seeds a location set with default values
+	//
+	// Consumes:
+	// - application/json
+	//
+	// Produces:
+	// - application/json
+	//
+	// Responses:
+	// 200: []location
+	api.HandleFunc("/locations", placesCtrl.SeedLocations).Methods("POST")
+
 	// FindRegions swagger:route GET /regions regions findRegions
 	// Finds a region set
 	//
