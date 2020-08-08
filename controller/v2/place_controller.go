@@ -25,15 +25,13 @@ func NewPlaceController(v1 v1Service.PlaceService, v2 v2Service.PlaceService) Pl
 
 // Get all locations
 func (ctrl PlaceControllerImpl) FindLocations(w http.ResponseWriter, r *http.Request) {
-	// FIXME update to v2
-	resp, err := ctrl.v1Svc.GetLocations()
+	resp, err := ctrl.v2Svc.GetLocations()
 	controller.HandleServiceResponse(w, resp, err)
 }
 
 // Get all regions
 func (ctrl PlaceControllerImpl) FindRegions(w http.ResponseWriter, r *http.Request) {
-	// FIXME update to v2
-	resp, err := ctrl.v1Svc.GetRegions()
+	resp, err := ctrl.v2Svc.GetRegions()
 	controller.HandleServiceResponse(w, resp, err)
 }
 

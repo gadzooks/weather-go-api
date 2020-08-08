@@ -3,6 +3,7 @@ package v2
 import (
 	"context"
 	"github.com/gadzooks/weather-go-api/model"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
@@ -68,7 +69,7 @@ func (lci *StorageClientImpl) QueryRegions() (map[string]Region, error) {
 	collection := lci.MongoClient.Database(lci.dbName).Collection(regionCollection)
 
 	var results = make(map[string]Region)
-	cursor, err := collection.Find(ctx, nil)
+	cursor, err := collection.Find(ctx, bson.M{})
 	if err != nil {
 		return results, err
 	}
@@ -90,7 +91,7 @@ func (lci *StorageClientImpl) QueryLocations() (map[string]Location, error) {
 	collection := lci.MongoClient.Database(lci.dbName).Collection(locationCollection)
 
 	var results = make(map[string]Location)
-	cursor, err := collection.Find(ctx, nil)
+	cursor, err := collection.Find(ctx, bson.M{})
 	if err != nil {
 		return results, err
 	}
