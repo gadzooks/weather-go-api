@@ -2,9 +2,8 @@ package controller
 
 import (
 	"encoding/json"
-	"net/http"
-
 	"github.com/gadzooks/weather-go-api/service"
+	"net/http"
 )
 
 type PlaceController interface {

@@ -1,25 +1,25 @@
 package middleware
 
 import (
-	"log"
+	"github.com/rs/zerolog/log"
 	"net/http"
 	"time"
 )
 
-//Logger is a middleware handler that does request logging
-type Logger struct {
+//RequestLogger is a middleware handler that does request logging
+type RequestLogger struct {
 	handler http.Handler
 }
 
 //ServeHTTP handles the request by passing it to the real
 //handler and logging the request details
-func (l *Logger) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (l *RequestLogger) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	start := time.Now()
 	l.handler.ServeHTTP(w, r)
-	log.Printf("%s %s %v", r.Method, r.URL.Path, time.Since(start))
+	log.Info().Msgf("%s %s %v", r.Method, r.URL.Path, time.Since(start))
 }
 
-//WithResponseTimeLogging constructs a new Logger middleware handler
-func WithResponseTimeLogging(handlerToWrap http.Handler) *Logger {
-	return &Logger{handlerToWrap}
+//WithResponseTimeLogging constructs a new RequestLogger middleware handler
+func WithResponseTimeLogging(handlerToWrap http.Handler) *RequestLogger {
+	return &RequestLogger{handlerToWrap}
 }

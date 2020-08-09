@@ -3,10 +3,10 @@ package v2
 import (
 	"context"
 	"github.com/gadzooks/weather-go-api/model"
+	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"log"
 	"time"
 )
 
@@ -50,7 +50,7 @@ func (lci *StorageClientImpl) DeleteAllRegions() error {
 	defer cancel()
 	collection := lci.MongoClient.Database(lci.dbName).Collection(regionCollection)
 	count, _ := collection.CountDocuments(ctx, nil)
-	log.Printf("deleting %d regions", count)
+	log.Info().Msgf("deleting %d regions", count)
 	return collection.Drop(ctx)
 }
 
@@ -59,7 +59,7 @@ func (lci *StorageClientImpl) DeleteAllLocations() error {
 	defer cancel()
 	collection := lci.MongoClient.Database(lci.dbName).Collection(locationCollection)
 	count, _ := collection.CountDocuments(ctx, nil)
-	log.Printf("deleting %d locations", count)
+	log.Info().Msgf("deleting %d locations", count)
 	return collection.Drop(ctx)
 }
 

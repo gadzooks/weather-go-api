@@ -1,9 +1,9 @@
 package client
 
 import (
+	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"io/ioutil"
-	"log"
 
 	"gopkg.in/yaml.v2"
 )
@@ -76,7 +76,7 @@ func (lci *StorageClientImpl) QueryRegions(dataDir string) (map[string]RegionDat
 	content, err := ioutil.ReadFile(lci.DataDir + "/regions.yml")
 	if err != nil {
 		lci.regionError = err
-		log.Fatal(err)
+		log.Fatal().Msg(err.Error())
 	}
 
 	var results map[string]RegionData
