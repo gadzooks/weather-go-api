@@ -71,8 +71,8 @@ type NewPlaceServiceImpl struct {
 ```go
 // StorageClient queries location db
 type StorageClient interface {
-	QueryLocations(dataDir string) (map[string]LocationData, error)
-	QueryRegions(dataDir string) (map[string]RegionData, error)
+	QueryLocations(dataDir string) (map[string]model.Location, error)
+	QueryRegions(dataDir string) (map[string]model.Region, error)
 }
 ```
 

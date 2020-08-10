@@ -1,8 +1,8 @@
 package client
 
 import (
+	"github.com/gadzooks/weather-go-api/model"
 	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"io/ioutil"
 
 	"gopkg.in/yaml.v2"
@@ -11,54 +11,20 @@ import (
 // StorageClient queries location db
 type StorageClient interface {
 	//FIXME dataDir is not required
-	QueryLocations(dataDir string) (map[string]LocationData, error)
+	QueryLocations(dataDir string) (map[string]model.Location, error)
 	//FIXME dataDir is not required
-	QueryRegions(dataDir string) (map[string]RegionData, error)
+	QueryRegions(dataDir string) (map[string]model.Region, error)
 }
 
 // StorageClientImpl implements LocationClient interface
 type StorageClientImpl struct {
 	DataDir         string
-	Locations       map[string]LocationData
+	Locations       map[string]model.Location
 	locationsLoaded bool
 	locationError   error
-	Regions         map[string]RegionData
+	Regions         map[string]model.Region
 	regionsLoaded   bool
 	regionError     error
-}
-
-/*
-gold bar:
-  name: 'gold bar'
-  region: central_cascades
-  description: 'Stevens Pass - West'
-  latitude: 47.8090
-  longitude: -121.5738
-  sub_region: '637634387ca38685f89162475c7fc1d2'
-*/
-//FIXME use model.Location
-// LocationData data returned by storage db service.
-type LocationData struct {
-	ID          primitive.ObjectID `json:"id" bson:"_id"`
-	Name        string             `yaml:"name"`
-	Region      string             `yaml:"region"`
-	Description string             `yaml:"description"`
-	Latitude    float64            `yaml:"latitude"`
-	Longitude   float64            `yaml:"longitude"`
-	SubRegion   string             `yaml:"sub_region"`
-}
-
-/*
-snowqualmie_region:
-  search_key: '04d37e830680c65b61df474e7e655d64'
-  description: 'Snowqualmie Region'
-*/
-//FIXME use model.Region
-// RegionData is data returned by storage db service
-type RegionData struct {
-	ID          primitive.ObjectID `json:"id" bson:"_id"`
-	SearchKey   string             `yaml:"search_key"`
-	Description string             `yaml:"description"`
 }
 
 func NewStorageClient(dataDir string) StorageClient {
@@ -69,7 +35,7 @@ func NewStorageClient(dataDir string) StorageClient {
 	}
 }
 
-func (lci *StorageClientImpl) QueryRegions(dataDir string) (map[string]RegionData, error) {
+func (lci *StorageClientImpl) QueryRegions(dataDir string) (map[string]model.Region, error) {
 	if lci.regionsLoaded {
 		return lci.Regions, lci.regionError
 	}
@@ -79,7 +45,7 @@ func (lci *StorageClientImpl) QueryRegions(dataDir string) (map[string]RegionDat
 		log.Fatal().Msg(err.Error())
 	}
 
-	var results map[string]RegionData
+	var results map[string]model.Region
 	err = yaml.Unmarshal(content, &results)
 	lci.regionError = err
 
@@ -88,7 +54,7 @@ func (lci *StorageClientImpl) QueryRegions(dataDir string) (map[string]RegionDat
 	return results, err
 }
 
-func (lci *StorageClientImpl) QueryLocations(dataDir string) (map[string]LocationData, error) {
+func (lci *StorageClientImpl) QueryLocations(dataDir string) (map[string]model.Location, error) {
 	if lci.locationsLoaded {
 		return lci.Locations, lci.locationError
 	}
@@ -98,7 +64,7 @@ func (lci *StorageClientImpl) QueryLocations(dataDir string) (map[string]Locatio
 		return lci.Locations, lci.locationError
 	}
 
-	var results map[string]LocationData
+	var results map[string]model.Location
 	err = yaml.Unmarshal(content, &results)
 	lci.locationError = err
 

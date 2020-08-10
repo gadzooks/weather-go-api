@@ -4,6 +4,15 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+/*
+gold bar:
+  name: 'gold bar'
+  region: central_cascades
+  description: 'Stevens Pass - West'
+  latitude: 47.8090
+  longitude: -121.5738
+  sub_region: '637634387ca38685f89162475c7fc1d2'
+*/
 type Location struct {
 	ID          primitive.ObjectID `json:"_id" bson:"_id"`
 	Name        string             `json:"name" yaml:"name" bson:"name"`
