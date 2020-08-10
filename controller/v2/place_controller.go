@@ -2,8 +2,10 @@ package v2
 
 import (
 	"github.com/gadzooks/weather-go-api/controller"
+	"github.com/gadzooks/weather-go-api/middleware"
 	v1Service "github.com/gadzooks/weather-go-api/service"
 	v2Service "github.com/gadzooks/weather-go-api/service/v2"
+	"github.com/rs/zerolog/log"
 	"net/http"
 )
 
@@ -25,6 +27,10 @@ func NewPlaceController(v1 v1Service.PlaceService, v2 v2Service.PlaceService) Pl
 
 // Get all locations
 func (ctrl PlaceControllerImpl) FindLocations(w http.ResponseWriter, r *http.Request) {
+	if ctxRqId, ok := r.Context().Value(middleware.ContextKeyReqID).(string); ok {
+		log.Logger = log.With().Str("reqId", ctxRqId).Logger()
+	}
+	log.Info().Msg("FindLocations")
 	resp, err := ctrl.v2Svc.GetLocations()
 	controller.HandleServiceResponse(w, resp, err)
 }
