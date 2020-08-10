@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"github.com/gadzooks/weather-go-api/service"
+	"github.com/gadzooks/weather-go-api/utils"
 	"net/http"
 )
 
@@ -21,6 +22,7 @@ func NewPlaceController(svc service.PlaceService) PlaceController {
 
 // Get all locations
 func (ctrl PlaceControllerImpl) FindLocations(w http.ResponseWriter, r *http.Request) {
+	utils.SetLoggerWithRequestId(r.Context())
 	resp, err := ctrl.svc.GetLocations()
 	HandleServiceResponse(w, resp, err)
 }

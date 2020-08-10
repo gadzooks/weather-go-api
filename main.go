@@ -47,7 +47,7 @@ func main() {
 	// add middleware
 	handler := middleware.WithCors(router)
 	handler = middleware.WithResponseTimeLogging(handler)
-	handler = middleware.Middleware(handler)
+	handler = middleware.WithRequestIdInLogger(handler)
 
 	srv := &http.Server{
 		Handler: handler,
