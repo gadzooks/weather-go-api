@@ -9,6 +9,7 @@ import (
 	v2Service "github.com/gadzooks/weather-go-api/service/v2"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/mongo"
+	"net/http"
 )
 
 // NewRouter creates new base router
@@ -26,13 +27,13 @@ func AddV2APISubRouterForPlaces(base *mux.Router, mongoClient *mongo.Client) {
 	api := base.PathPrefix("/v2").Subrouter()
 
 	// create repo object
-	v1Client := client.NewStorageClient(storageDataDir)
-	v2Client := v2Client.NewStorageClient(mongoClient)
+	v1c := client.NewStorageClient(storageDataDir)
+	v2c := v2Client.NewStorageClient(mongoClient)
 	// create service object
-	v1Service := service.NewPlaceService(v1Client)
-	v2Service := v2Service.NewPlaceService(v2Client)
+	v1s := service.NewPlaceService(v1c)
+	v2s := v2Service.NewPlaceService(v2c)
 	// create controller object
-	placesCtrl := v2Controller.NewPlaceController(v1Service, v2Service)
+	placesCtrl := v2Controller.NewPlaceController(v1s, v2s)
 
 	// FindLocations swagger:route GET /locations locations findLocations
 	//
@@ -46,7 +47,7 @@ func AddV2APISubRouterForPlaces(base *mux.Router, mongoClient *mongo.Client) {
 	//
 	// Responses:
 	// 200: []location
-	api.HandleFunc("/locations", placesCtrl.FindLocations).Methods("GET")
+	api.HandleFunc("/locations", placesCtrl.FindLocations).Methods(http.MethodGet)
 
 	// CreateLocation swagger:route POST /locations locations findLocations
 	// Seeds a location set with default values
@@ -59,7 +60,7 @@ func AddV2APISubRouterForPlaces(base *mux.Router, mongoClient *mongo.Client) {
 	//
 	// Responses:
 	// 200: []location
-	api.HandleFunc("/locations", placesCtrl.SeedLocations).Methods("POST")
+	api.HandleFunc("/locations", placesCtrl.SeedLocations).Methods(http.MethodPost)
 
 	// FindRegions swagger:route GET /regions regions findRegions
 	// Finds a region set
@@ -72,7 +73,7 @@ func AddV2APISubRouterForPlaces(base *mux.Router, mongoClient *mongo.Client) {
 	//
 	// Responses:
 	// 200: []region
-	api.HandleFunc("/regions", placesCtrl.FindRegions).Methods("GET")
+	api.HandleFunc("/regions", placesCtrl.FindRegions).Methods(http.MethodGet)
 
 	// CreateRegion swagger:route POST /regions regions findRegions
 	// Seeds a region set with default values
@@ -85,11 +86,11 @@ func AddV2APISubRouterForPlaces(base *mux.Router, mongoClient *mongo.Client) {
 	//
 	// Responses:
 	// 200: []region
-	api.HandleFunc("/regions", placesCtrl.SeedRegions).Methods("POST")
+	api.HandleFunc("/regions", placesCtrl.SeedRegions).Methods(http.MethodPost)
 	/*
-		a.Router.HandleFunc("/products", a.getProducts).Methods("GET")
+		a.Router.HandleFunc("/products", a.getProducts).Methods(http.MethodGet)
 		a.Router.HandleFunc("/product", a.createProduct).Methods("POST")
-		a.Router.HandleFunc("/product/{id:[0-9]+}", a.getProduct).Methods("GET")
+		a.Router.HandleFunc("/product/{id:[0-9]+}", a.getProduct).Methods(http.MethodGet)
 		a.Router.HandleFunc("/product/{id:[0-9]+}", a.updateProduct).Methods("PUT")
 		a.Router.HandleFunc("/product/{id:[0-9]+}", a.deleteProduct).Methods("DELETE")
 
@@ -119,7 +120,7 @@ func AddAPISubRouterForPlaces(base *mux.Router) {
 	//
 	// Responses:
 	// 200: []location
-	api.HandleFunc("/locations", placesCtrl.FindLocations).Methods("GET")
+	api.HandleFunc("/locations", placesCtrl.FindLocations).Methods(http.MethodGet)
 
 	// FindRegions swagger:route GET /regions regions findRegions
 	// Finds a region set
@@ -132,12 +133,12 @@ func AddAPISubRouterForPlaces(base *mux.Router) {
 	//
 	// Responses:
 	// 200: []region
-	api.HandleFunc("/regions", placesCtrl.FindRegions).Methods("GET")
+	api.HandleFunc("/regions", placesCtrl.FindRegions).Methods(http.MethodGet)
 
 	/*
-		a.Router.HandleFunc("/products", a.getProducts).Methods("GET")
+		a.Router.HandleFunc("/products", a.getProducts).Methods(http.MethodGet)
 		a.Router.HandleFunc("/product", a.createProduct).Methods("POST")
-		a.Router.HandleFunc("/product/{id:[0-9]+}", a.getProduct).Methods("GET")
+		a.Router.HandleFunc("/product/{id:[0-9]+}", a.getProduct).Methods(http.MethodGet)
 		a.Router.HandleFunc("/product/{id:[0-9]+}", a.updateProduct).Methods("PUT")
 		a.Router.HandleFunc("/product/{id:[0-9]+}", a.deleteProduct).Methods("DELETE")
 

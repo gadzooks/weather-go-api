@@ -3,7 +3,7 @@ package v2
 import (
 	v2Client "github.com/gadzooks/weather-go-api/client/v2"
 	"github.com/gadzooks/weather-go-api/model"
-	"log"
+	"github.com/rs/zerolog/log"
 )
 
 // PlaceService is responsible for querying locations and regions
@@ -38,13 +38,13 @@ func (r PlaceServiceImpl) SeedLocations(data []model.Location) ([]model.Location
 		return inserted, err
 	}
 	for _, location := range data {
-		log.Printf("insert location : %v\n", location)
+		log.Info().Msgf("insert location : %v\n", location)
 		resp, err := r.client.CreateLocation(location)
 		if err != nil {
-			log.Printf("error inserting location : %v\n", err)
+			log.Info().Msgf("error inserting location : %v\n", err)
 		} else {
 			inserted = append(inserted, location)
-			log.Printf("inserted location with id : %v", resp.ID.Hex())
+			log.Info().Msgf("inserted location with id : %v", resp.ID.Hex())
 		}
 	}
 	return inserted, nil
@@ -69,13 +69,13 @@ func (r PlaceServiceImpl) SeedRegions(data []model.Region) ([]model.Region, erro
 		return inserted, err
 	}
 	for _, region := range data {
-		log.Printf("insert region : %v\n", region)
+		log.Info().Msgf("insert region : %v\n", region)
 		resp, err := r.client.CreateRegion(region)
 		if err != nil {
-			log.Printf("error inserting region : %v\n", err)
+			log.Info().Msgf("error inserting region : %v\n", err)
 		} else {
 			inserted = append(inserted, region)
-			log.Printf("inserted region with id : %v", resp.ID.Hex())
+			log.Info().Msgf("inserted region with id : %v", resp.ID.Hex())
 		}
 	}
 	return inserted, nil
