@@ -98,7 +98,7 @@ func mongoConnect(ctx context.Context) *mongo.Client {
 		mongoPass,
 		mongoDB,
 	)
-	log.Info().Msgf("connecting via : ", uri)
+	log.Info().Msgf("connecting via : %s", uri)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
 	if err != nil {
 		log.Fatal().Msg(err.Error())
