@@ -28,6 +28,14 @@ func (l *Logger) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
+### Use middleware to add unique reqId per request to context
+```shell script
+6:07AM INF service/v2/place_service.go:41 > insert location : {ObjectID("000000000000000000000000") north bend snowqualmie_region North Bend 47.497428 -121.786648 db086e5e85941a02ae188f726f7e9e2c}
+ reqId=74590ef0-2c7b-4e62-bfef-03ae13fa85a3
+6:07AM INF service/v2/place_service.go:47 > inserted location with id : 5f30e4046c7600d75072329d reqId=74590ef0-2c7b-4e62-bfef-03ae13fa85a3
+6:07AM INF middleware/request_logger.go:19 > POST /v2/locations 3.15215768s reqId=74590ef0-2c7b-4e62-bfef-03ae13fa85a3
+```
+
 #### Follow REST naming convention and swagger documentation style
 ```go
 	// FindLocations swagger:route GET /locations locations findLocations

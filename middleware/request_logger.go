@@ -16,7 +16,8 @@ type RequestLogger struct {
 func (l *RequestLogger) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	start := time.Now()
 	l.handler.ServeHTTP(w, r)
-	log.Info().Msgf("%s %s %v", r.Method, r.URL.Path, time.Since(start))
+	log.Logger = log.With().Str("reqTime", time.Since(start).String()).Logger()
+	log.Info().Msgf("%s %s", r.Method, r.URL.Path)
 }
 
 //WithResponseTimeLogging constructs a new RequestLogger middleware handler
