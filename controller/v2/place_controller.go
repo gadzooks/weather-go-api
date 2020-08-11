@@ -64,6 +64,10 @@ func (ctrl PlaceControllerImpl) CreateRegion(w http.ResponseWriter, r *http.Requ
 // Get Region from db
 func (ctrl PlaceControllerImpl) GetRegion(w http.ResponseWriter, r *http.Request) {
 	utils.SetLoggerWithRequestId(r.Context())
+	// to get logs with the request details :
+	// GetRegion reqId=3497b9a8-747c-423a-8d8f-41559476795c request="GET /v2/region/foobar HTTP/1.1\r\nHost: localhost:8080\r\nAccept: */*\r\nAccept-Encoding: gzip, deflate, br\r\nConnection: keep-alive\r\nPostman-Token: 6db04fcc-9bd4-4503-9df2-0d0887401f9c\r\nUser-Agent: PostmanRuntime/7.26.2\r\n\r\n"
+	// requestDump, _ := httputil.DumpRequest(r, false)
+	// log.Logger = log.With().Str("request", string(requestDump)).Logger()
 	log.Info().Msg("GetRegion")
 	vars := mux.Vars(r)
 	key := vars["id"]

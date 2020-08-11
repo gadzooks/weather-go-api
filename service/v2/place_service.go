@@ -1,8 +1,10 @@
 package v2
 
 import (
+	"fmt"
 	v2Client "github.com/gadzooks/weather-go-api/client/v2"
 	"github.com/gadzooks/weather-go-api/model"
+	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -59,14 +61,21 @@ func (r PlaceServiceImpl) SeedLocations(data []model.Location) ([]model.Location
 	return inserted, nil
 }
 
+var InvalidInputError = errors.New("InvalidInputError")
+var NotFoundError = errors.New("NotFoundError")
+
 func (r PlaceServiceImpl) GetRegion(id string) (model.Region, error) {
 	oID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		return model.Region{}, err
+		return model.Region{}, fmt.Errorf("invalid id '%s' provided. %w", id, InvalidInputError)
 	}
 
 	query := bson.M{"_id": oID}
-	return r.client.FindRegion(query)
+	m, err := r.client.FindRegion(query)
+	if err != nil {
+		return model.Region{}, fmt.Errorf("region not found for '%s': %w", id, NotFoundError)
+	}
+	return m, nil
 }
 
 func (r PlaceServiceImpl) UpdateRegion(region map[string]string) (model.Region, error) {
