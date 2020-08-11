@@ -4,14 +4,23 @@ import (
 	v2Client "github.com/gadzooks/weather-go-api/client/v2"
 	"github.com/gadzooks/weather-go-api/model"
 	"github.com/rs/zerolog/log"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // PlaceService is responsible for querying locations and regions
 type PlaceService interface {
 	GetLocations() ([]model.Location, error)
-	GetRegions() ([]model.Region, error)
 	SeedLocations([]model.Location) ([]model.Location, error)
+
 	SeedRegions([]model.Region) ([]model.Region, error)
+	GetRegions() ([]model.Region, error)
+
+	// CRUD operations for region model
+	GetRegion(string) (model.Region, error)
+	CreateRegion(map[string]string) (model.Region, error)
+	UpdateRegion(map[string]string) (model.Region, error)
+	DeleteRegion(string) (model.Region, error)
 }
 
 // PlaceServiceImpl implements PlaceService
@@ -48,6 +57,33 @@ func (r PlaceServiceImpl) SeedLocations(data []model.Location) ([]model.Location
 		}
 	}
 	return inserted, nil
+}
+
+func (r PlaceServiceImpl) GetRegion(id string) (model.Region, error) {
+	oID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return model.Region{}, err
+	}
+
+	query := bson.M{"_id": oID}
+	return r.client.FindRegion(query)
+}
+
+func (r PlaceServiceImpl) UpdateRegion(region map[string]string) (model.Region, error) {
+	query := bson.M{
+		"_id":         region["id"],
+		"name":        region["name"],
+		"description": region["description"],
+	}
+	return r.client.UpdateRegion(query)
+}
+
+func (r PlaceServiceImpl) CreateRegion(region map[string]string) (model.Region, error) {
+	return model.Region{}, nil
+}
+
+func (r PlaceServiceImpl) DeleteRegion(id string) (model.Region, error) {
+	return model.Region{}, nil
 }
 
 func (r PlaceServiceImpl) GetRegions() ([]model.Region, error) {

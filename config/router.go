@@ -60,7 +60,7 @@ func AddV2APISubRouterForPlaces(base *mux.Router, mongoClient *mongo.Client) {
 	//
 	// Responses:
 	// 200: []location
-	api.HandleFunc("/locations", placesCtrl.SeedLocations).Methods(http.MethodPost)
+	api.HandleFunc("/seed/locations", placesCtrl.SeedLocations).Methods(http.MethodPost)
 
 	// FindRegions swagger:route GET /regions regions findRegions
 	// Finds a region set
@@ -75,7 +75,7 @@ func AddV2APISubRouterForPlaces(base *mux.Router, mongoClient *mongo.Client) {
 	// 200: []region
 	api.HandleFunc("/regions", placesCtrl.FindRegions).Methods(http.MethodGet)
 
-	// CreateRegion swagger:route POST /regions regions findRegions
+	// SeedRegion swagger:route POST /seed/regions regions SeedRegion
 	// Seeds a region set with default values
 	//
 	// Consumes:
@@ -86,15 +86,60 @@ func AddV2APISubRouterForPlaces(base *mux.Router, mongoClient *mongo.Client) {
 	//
 	// Responses:
 	// 200: []region
-	api.HandleFunc("/regions", placesCtrl.SeedRegions).Methods(http.MethodPost)
-	/*
-		a.Router.HandleFunc("/products", a.getProducts).Methods(http.MethodGet)
-		a.Router.HandleFunc("/product", a.createProduct).Methods("POST")
-		a.Router.HandleFunc("/product/{id:[0-9]+}", a.getProduct).Methods(http.MethodGet)
-		a.Router.HandleFunc("/product/{id:[0-9]+}", a.updateProduct).Methods("PUT")
-		a.Router.HandleFunc("/product/{id:[0-9]+}", a.deleteProduct).Methods("DELETE")
+	api.HandleFunc("/seed/regions", placesCtrl.SeedRegions).Methods(http.MethodPost)
 
-	*/
+	// CreateRegion swagger:route POST /regions regions createRegion
+	// Create a new region
+	//
+	// Consumes:
+	// - application/json
+	//
+	// Produces:
+	// - application/json
+	//
+	// Responses:
+	// 200: region
+	api.HandleFunc("/regions", placesCtrl.CreateRegion).Methods(http.MethodPost)
+
+	// ReadRegion swagger:route GET /region/region-id region getRegion
+	// Get a region
+	//
+	// Consumes:
+	// - application/json
+	//
+	// Produces:
+	// - application/json
+	//
+	// Responses:
+	// 200: region
+	api.HandleFunc("/region/{id:[0-9a-zA-Z]+}", placesCtrl.GetRegion).Methods(http.MethodGet)
+
+	// UpdateRegion swagger:route PUT /regions regions updateRegion
+	// Update a region
+	//
+	// Consumes:
+	// - application/json
+	//
+	// Produces:
+	// - application/json
+	//
+	// Responses:
+	// 200: region
+	api.HandleFunc("/region/{id:[0-9a-zA-Z]+}", placesCtrl.UpdateRegion).Methods(http.MethodPut)
+
+	// DeleteRegion swagger:route DELETE /regions regions deleteRegion
+	// Delete a region
+	//
+	// Consumes:
+	// - application/json
+	//
+	// Produces:
+	// - application/json
+	//
+	// Responses:
+	// 200: region
+	api.HandleFunc("/region/{id:[0-9a-zA-Z]+}", placesCtrl.DeleteRegion).Methods(http.MethodDelete)
+
 }
 
 func AddAPISubRouterForPlaces(base *mux.Router) {

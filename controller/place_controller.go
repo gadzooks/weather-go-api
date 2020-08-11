@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/gadzooks/weather-go-api/service"
 	"github.com/gadzooks/weather-go-api/utils"
+	"github.com/rs/zerolog/log"
 	"net/http"
 )
 
@@ -35,12 +36,14 @@ func (ctrl PlaceControllerImpl) FindRegions(w http.ResponseWriter, r *http.Reque
 
 func HandleServiceResponse(w http.ResponseWriter, resp interface{}, err error) {
 	if err != nil {
+		log.Error().Msg(err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	js, err := json.MarshalIndent(resp, "", "")
 	if err != nil {
+		log.Error().Msg(err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

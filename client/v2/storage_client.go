@@ -13,7 +13,7 @@ import (
 type Location = model.Location
 type Region = model.Region
 
-// StorageClient queries location db
+// StorageClient queries mongdb db
 type StorageClient interface {
 	QueryLocations() (map[string]Location, error)
 	QueryRegions() (map[string]Region, error)
@@ -21,6 +21,8 @@ type StorageClient interface {
 	CreateRegion(model.Region) (model.Region, error)
 	DeleteAllRegions() error
 	DeleteAllLocations() error
+	FindRegion(m bson.M) (model.Region, error)
+	UpdateRegion(m bson.M) (model.Region, error)
 }
 
 // StorageClientImpl implements LocationClient interface
@@ -41,8 +43,18 @@ func NewStorageClient(mongoClient *mongo.Client) StorageClient {
 const regionCollection = "regions"
 const locationCollection = "locations"
 
-func (lci *StorageClientImpl) getContext() (context.Context, context.CancelFunc) {
-	return context.WithTimeout(context.Background(), 5*time.Second)
+func (lci *StorageClientImpl) UpdateRegion(query bson.M) (model.Region, error) {
+	return model.Region{}, nil
+}
+
+func (lci *StorageClientImpl) FindRegion(query bson.M) (model.Region, error) {
+	log.Info().Msgf("executing query : %v", query)
+	ctx, cancel := lci.getContext()
+	defer cancel()
+	collection := lci.MongoClient.Database(lci.dbName).Collection(regionCollection)
+	var region model.Region
+	err := collection.FindOne(ctx, query).Decode(&region)
+	return region, err
 }
 
 func (lci *StorageClientImpl) DeleteAllRegions() error {
@@ -131,4 +143,8 @@ func (lci *StorageClientImpl) CreateLocation(data model.Location) (model.Locatio
 		return data, err
 	}
 	return data, err
+}
+
+func (lci *StorageClientImpl) getContext() (context.Context, context.CancelFunc) {
+	return context.WithTimeout(context.Background(), 5*time.Second)
 }
