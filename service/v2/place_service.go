@@ -1,13 +1,9 @@
 package v2
 
 import (
-	"fmt"
 	v2Client "github.com/gadzooks/weather-go-api/client/v2"
 	"github.com/gadzooks/weather-go-api/model"
-	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // PlaceService is responsible for querying locations and regions
@@ -21,7 +17,7 @@ type PlaceService interface {
 	// CRUD operations for region model
 	GetRegion(string) (model.Region, error)
 	CreateRegion(map[string]string) (model.Region, error)
-	UpdateRegion(map[string]string) (model.Region, error)
+	UpdateRegion(map[string]string) error
 	DeleteRegion(string) (model.Region, error)
 }
 
@@ -61,30 +57,20 @@ func (r PlaceServiceImpl) SeedLocations(data []model.Location) ([]model.Location
 	return inserted, nil
 }
 
-var InvalidInputError = errors.New("InvalidInputError")
-var NotFoundError = errors.New("NotFoundError")
+var InvalidInputError = v2Client.InvalidInputError
+var NotFoundError = v2Client.NotFoundError
 
 func (r PlaceServiceImpl) GetRegion(id string) (model.Region, error) {
-	oID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return model.Region{}, fmt.Errorf("invalid id '%s' provided. %w", id, InvalidInputError)
-	}
-
-	query := bson.M{"_id": oID}
-	m, err := r.client.FindRegion(query)
-	if err != nil {
-		return model.Region{}, fmt.Errorf("region not found for '%s': %w", id, NotFoundError)
-	}
-	return m, nil
+	return r.client.FindRegion(id)
 }
 
-func (r PlaceServiceImpl) UpdateRegion(region map[string]string) (model.Region, error) {
-	query := bson.M{
-		"_id":         region["id"],
-		"name":        region["name"],
-		"description": region["description"],
-	}
-	return r.client.UpdateRegion(query)
+func (r PlaceServiceImpl) UpdateRegion(region map[string]string) error {
+	params := make(map[string]string)
+	params["id"] = region["id"]
+	// FIXME : support name update, which needs updating location docs too
+	params["description"] = region["description"]
+
+	return r.client.UpdateRegion(params)
 }
 
 func (r PlaceServiceImpl) CreateRegion(region map[string]string) (model.Region, error) {

@@ -59,16 +59,18 @@ func HandleServiceResponse(w http.ResponseWriter, resp interface{}, err error) {
 		return
 	}
 
-	js, err := json.MarshalIndent(resp, "", "")
-	if err != nil {
-		log.Error().Msg(err.Error())
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
 	w.WriteHeader(http.StatusOK)
-	if js != nil {
-		_, _ = w.Write(js)
+	if resp != nil {
+		js, err := json.MarshalIndent(resp, "", "")
+		if err != nil {
+			log.Error().Msg(err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		if js != nil {
+			_, _ = w.Write(js)
+		}
 	}
 
 }

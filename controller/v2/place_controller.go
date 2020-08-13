@@ -86,8 +86,8 @@ func (ctrl PlaceControllerImpl) UpdateRegion(w http.ResponseWriter, r *http.Requ
 		"description": vars["description"],
 	}
 
-	resp, err := ctrl.v2Svc.UpdateRegion(regionData)
-	controller.HandleServiceResponse(w, resp, err)
+	err := ctrl.v2Svc.UpdateRegion(regionData)
+	controller.HandleServiceResponse(w, nil, err)
 }
 
 // Delete a region
