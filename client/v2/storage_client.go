@@ -9,6 +9,9 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readconcern"
+	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 	"time"
 )
 
@@ -91,13 +94,43 @@ func (lci *StorageClientImpl) DeleteRegion(id string) error {
 	defer cancel()
 	collection := lci.MongoClient.Database(lci.dbName).Collection(regionCollection)
 
-	log.Info().Msgf("executing query : %v", query)
-	result, err := collection.DeleteOne(ctx, query)
+	wc := writeconcern.New(writeconcern.WMajority())
+	rc := readconcern.Snapshot()
+	txnOpts := options.Transaction().SetWriteConcern(wc).SetReadConcern(rc)
+
+	session, err := lci.MongoClient.StartSession()
 	if err != nil {
 		return err
 	}
-	log.Info().Msgf("DeleteOne removed %v document(s)\n", result.DeletedCount)
-	return nil
+	defer session.EndSession(ctx)
+
+	callback := func(sessionContext mongo.SessionContext) (interface{}, error) {
+		log.Info().Msg("============starting transaction ==============")
+		log.Info().Msgf("executing FindOne query : %v", query)
+		var region model.Region
+		err = collection.FindOne(ctx, query).Decode(&region)
+
+		log.Info().Msgf("executing DeleteOne query : %v", query)
+		result, err := collection.DeleteOne(ctx, query)
+		if err != nil {
+			return nil, err
+		}
+		log.Info().Msgf("DeleteOne removed %v document(s)\n", result.DeletedCount)
+		locationCollection := lci.MongoClient.Database(lci.dbName).Collection(locationCollection)
+
+		locationQuery := bson.M{"region": region.Name}
+		log.Info().Msgf("executing DeleteMany locations query : %v", locationQuery)
+		result, err = locationCollection.DeleteMany(ctx, locationQuery)
+
+		log.Info().Msgf("DeleteMany removed %v document(s)\n", result.DeletedCount)
+		log.Info().Msg("============ending transaction ==============")
+
+		return result, nil
+	}
+
+	_, err = session.WithTransaction(ctx, callback, txnOpts)
+
+	return err
 }
 
 func (lci *StorageClientImpl) FindRegion(id string) (model.Region, error) {
