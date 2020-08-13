@@ -1,12 +1,15 @@
 package v2
 
 import (
+	"encoding/json"
 	"github.com/gadzooks/weather-go-api/controller"
+	"github.com/gadzooks/weather-go-api/model"
 	v1Service "github.com/gadzooks/weather-go-api/service"
 	v2Service "github.com/gadzooks/weather-go-api/service/v2"
 	"github.com/gadzooks/weather-go-api/utils"
 	"github.com/gorilla/mux"
 	"github.com/rs/zerolog/log"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -51,14 +54,16 @@ func (ctrl PlaceControllerImpl) FindRegions(w http.ResponseWriter, r *http.Reque
 func (ctrl PlaceControllerImpl) CreateRegion(w http.ResponseWriter, r *http.Request) {
 	utils.SetLoggerWithRequestId(r.Context())
 	log.Info().Msg("CreateRegion")
-	vars := mux.Vars(r)
-	regionData := map[string]string{
-		"id":          vars["id"],
-		"name":        vars["name"],
-		"description": vars["description"],
+	reqBody, _ := ioutil.ReadAll(r.Body)
+	var region model.Region
+	err := json.Unmarshal(reqBody, &region)
+	if err == nil {
+		log.Info().Msgf("CreateRegion for %v", region)
+		resp, err := ctrl.v2Svc.CreateRegion(region)
+		controller.HandleServiceResponse(w, resp, err)
+	} else {
+		controller.HandleServiceResponse(w, nil, err)
 	}
-	resp, err := ctrl.v2Svc.CreateRegion(regionData)
-	controller.HandleServiceResponse(w, resp, err)
 }
 
 // Get Region from db
@@ -96,8 +101,8 @@ func (ctrl PlaceControllerImpl) DeleteRegion(w http.ResponseWriter, r *http.Requ
 	log.Info().Msg("DeleteRegion")
 	vars := mux.Vars(r)
 	key := vars["id"]
-	resp, err := ctrl.v2Svc.DeleteRegion(key)
-	controller.HandleServiceResponse(w, resp, err)
+	err := ctrl.v2Svc.DeleteRegion(key)
+	controller.HandleServiceResponse(w, nil, err)
 }
 
 // Seed regions with default data

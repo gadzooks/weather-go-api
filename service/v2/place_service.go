@@ -16,9 +16,9 @@ type PlaceService interface {
 
 	// CRUD operations for region model
 	GetRegion(string) (model.Region, error)
-	CreateRegion(map[string]string) (model.Region, error)
+	CreateRegion(region model.Region) (model.Region, error)
 	UpdateRegion(map[string]string) error
-	DeleteRegion(string) (model.Region, error)
+	DeleteRegion(string) error
 }
 
 // PlaceServiceImpl implements PlaceService
@@ -73,12 +73,12 @@ func (r PlaceServiceImpl) UpdateRegion(region map[string]string) error {
 	return r.client.UpdateRegion(params)
 }
 
-func (r PlaceServiceImpl) CreateRegion(region map[string]string) (model.Region, error) {
-	return model.Region{}, nil
+func (r PlaceServiceImpl) CreateRegion(region model.Region) (model.Region, error) {
+	return r.client.CreateRegion(region)
 }
 
-func (r PlaceServiceImpl) DeleteRegion(id string) (model.Region, error) {
-	return model.Region{}, nil
+func (r PlaceServiceImpl) DeleteRegion(id string) error {
+	return r.client.DeleteRegion(id)
 }
 
 func (r PlaceServiceImpl) GetRegions() ([]model.Region, error) {

@@ -38,6 +38,7 @@ func (ctrl PlaceControllerImpl) FindRegions(w http.ResponseWriter, r *http.Reque
 
 func HandleServiceResponse(w http.ResponseWriter, resp interface{}, err error) {
 	if err != nil {
+		log.Error().Msg(err.Error())
 		js, _ := json.MarshalIndent(err.Error(), "", "")
 		if errors.Is(err, v2.InvalidInputError) {
 			log.Info().Msg(err.Error())

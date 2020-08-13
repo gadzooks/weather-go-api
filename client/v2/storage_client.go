@@ -25,6 +25,7 @@ type StorageClient interface {
 	DeleteAllLocations() error
 	FindRegion(string) (model.Region, error)
 	UpdateRegion(map[string]string) error
+	DeleteRegion(string) error
 }
 
 // StorageClientImpl implements LocationClient interface
@@ -78,6 +79,26 @@ func (lci *StorageClientImpl) UpdateRegion(params map[string]string) error {
 // if err := pkg.DoSomething(); errors.Is(err, pkg.InvalidInputError) { ... }
 var InvalidInputError = errors.New("InvalidInputError")
 var NotFoundError = errors.New("NotFoundError")
+
+func (lci *StorageClientImpl) DeleteRegion(id string) error {
+	oID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return fmt.Errorf("invalid id '%s' provided. %w", id, InvalidInputError)
+	}
+
+	query := bson.M{"_id": oID}
+	ctx, cancel := lci.getContext()
+	defer cancel()
+	collection := lci.MongoClient.Database(lci.dbName).Collection(regionCollection)
+
+	log.Info().Msgf("executing query : %v", query)
+	result, err := collection.DeleteOne(ctx, query)
+	if err != nil {
+		return err
+	}
+	log.Info().Msgf("DeleteOne removed %v document(s)\n", result.DeletedCount)
+	return nil
+}
 
 func (lci *StorageClientImpl) FindRegion(id string) (model.Region, error) {
 	oID, err := primitive.ObjectIDFromHex(id)
