@@ -9,9 +9,16 @@ import (
 // PlaceService is responsible for querying locations and regions
 type PlaceService interface {
 	GetLocations() ([]model.Location, error)
-	GetRegions() ([]model.Region, error)
 	SeedLocations([]model.Location) ([]model.Location, error)
+
 	SeedRegions([]model.Region) ([]model.Region, error)
+	GetRegions() ([]model.Region, error)
+
+	// CRUD operations for region model
+	GetRegion(string) (model.Region, error)
+	CreateRegion(region model.Region) (model.Region, error)
+	UpdateRegion(map[string]string) error
+	DeleteRegion(string) error
 }
 
 // PlaceServiceImpl implements PlaceService
@@ -48,6 +55,30 @@ func (r PlaceServiceImpl) SeedLocations(data []model.Location) ([]model.Location
 		}
 	}
 	return inserted, nil
+}
+
+var InvalidInputError = v2Client.InvalidInputError
+var NotFoundError = v2Client.NotFoundError
+
+func (r PlaceServiceImpl) GetRegion(id string) (model.Region, error) {
+	return r.client.FindRegion(id)
+}
+
+func (r PlaceServiceImpl) UpdateRegion(region map[string]string) error {
+	params := make(map[string]string)
+	params["id"] = region["id"]
+	// FIXME : support name update, which needs updating location docs too
+	params["description"] = region["description"]
+
+	return r.client.UpdateRegion(params)
+}
+
+func (r PlaceServiceImpl) CreateRegion(region model.Region) (model.Region, error) {
+	return r.client.CreateRegion(region)
+}
+
+func (r PlaceServiceImpl) DeleteRegion(id string) error {
+	return r.client.DeleteRegion(id)
 }
 
 func (r PlaceServiceImpl) GetRegions() ([]model.Region, error) {

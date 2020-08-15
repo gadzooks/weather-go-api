@@ -5,6 +5,43 @@ import (
 )
 
 /*
+Mongodb validation :
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'name',
+      'region',
+      'latitude',
+      'longitude',
+      'subRegion'
+    ],
+    properties: {
+      _id: {},
+      name: {
+        bsonType: 'string',
+        description: '\'name\' is required and should be a string'
+      },
+      region: {
+        bsonType: 'string',
+        description: '\'region\' is required and should be a string'
+      },
+      subRegion: {
+        bsonType: 'string',
+        description: '\'subRegion\' is required and should be a string'
+      },
+      latitude: {
+        bsonType: 'double',
+        description: '\'latitude\' is required and should be a valid double'
+      },
+      longitude: {
+        bsonType: 'double',
+        description: '\'longitude\' is required and should be a valid double'
+      }
+    }
+  }
+}
+
 gold bar:
   name: 'gold bar'
   region: central_cascades
@@ -24,6 +61,33 @@ type Location struct {
 }
 
 /*
+mongodb validation :
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'name',
+      'searchKey',
+      'description'
+    ],
+    properties: {
+      _id: {},
+      name: {
+        bsonType: 'string',
+        description: '\'name\' is required and should be a string'
+      },
+      searchKey: {
+        bsonType: 'string',
+        description: '\'searchKey\' is required and should be a string'
+      },
+      description: {
+        bsonType: 'string',
+        description: '\'description\' is required and should be a string'
+      }
+    }
+  }
+}
+
 snowqualmie_region:
   search_key: '04d37e830680c65b61df474e7e655d64'
   description: 'Snowqualmie Region'
