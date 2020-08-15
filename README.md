@@ -51,6 +51,11 @@ func (l *Logger) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// Responses:
 	// 200: []location
 	api.HandleFunc("/locations", placesCtrl.FindLocations).Methods("GET")
+
+	api.HandleFunc("/regions", placesCtrl.CreateRegion).Methods(http.MethodPost)
+	api.HandleFunc("/region/{id:[0-9a-zA-Z]+}", placesCtrl.GetRegion).Methods(http.MethodGet)
+	api.HandleFunc("/region/{id:[0-9a-zA-Z]+}", placesCtrl.UpdateRegion).Methods(http.MethodPut)
+	api.HandleFunc("/region/{id:[0-9a-zA-Z]+}", placesCtrl.DeleteRegion).Methods(http.MethodDelete)
 ```
 
 #### Rest controller(s) expose endpoints via PlaceController `interface`
@@ -61,7 +66,15 @@ type PlaceController interface {
 }
 ```
 
-#### Service `package` handles business logic via PlaceService `interface`
+#### Handle errors and return the correct http response codes
+```go
+if errors.Is(err, v2.InvalidInputError) {
+    log.Info().Msg(err.Error())
+	w.WriteHeader(http.StatusBadRequest)
+}
+```
+
+#### Service package handles business logic via PlaceService `interface`
 ```go
 // PlaceService is responsible for querying locations and regions
 type PlaceService interface {
@@ -75,7 +88,7 @@ type NewPlaceServiceImpl struct {
 }
 ```
 
-#### Client `package` handles external clients
+#### Client package handles external clients
 ```go
 // StorageClient queries location db
 type StorageClient interface {
@@ -84,7 +97,7 @@ type StorageClient interface {
 }
 ```
 
-#### Model `pacakge` contains Data Transfer Objects (DTOs)
+#### Model pacakge contains Data Transfer Objects (DTOs)
 ```go
 /*
 snowqualmie_region:
