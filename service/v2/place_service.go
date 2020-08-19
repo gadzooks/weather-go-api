@@ -40,6 +40,7 @@ func (r PlaceServiceImpl) GetLocations() ([]model.Location, error) {
 
 func (r PlaceServiceImpl) SeedLocations(data []model.Location) ([]model.Location, error) {
 	var inserted []model.Location
+	log.Info().Msgf("SeedLocations with : %v", data)
 	err := r.client.DeleteAllLocations()
 	if err != nil {
 		return inserted, err
@@ -95,6 +96,7 @@ func (r PlaceServiceImpl) GetRegions() ([]model.Region, error) {
 
 func (r PlaceServiceImpl) SeedRegions(data []model.Region) ([]model.Region, error) {
 	var inserted []model.Region
+	log.Info().Msgf("SeedRegions with : %v", data)
 	err := r.client.DeleteAllRegions()
 	if err != nil {
 		return inserted, err

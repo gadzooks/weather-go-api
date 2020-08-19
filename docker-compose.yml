@@ -1,16 +1,25 @@
 version: '3'
+
+# Networks to be created to facilitate communication between containers
+networks:
+  fullstack:
+    driver: bridge
+
 services:
   app:
     container_name: weather_config
     build: . # dir where Dockerfile is located
     ports:
       - 8080:8080
-    restart: on-failure
+    #restart: on-failure
     volumes:
       - api:/usr/src/app/
-    #depends_on:
+    depends_on:
+      - mongodb
       # - fullstack-postgres          # Uncomment this when using postgres.
       # - fullstack-mysql           # Uncomment this when using mysql.
+    environment:
+      MONGO_DB: weatherIntegDb
     networks:
       - fullstack
 
@@ -25,6 +34,41 @@ services:
     environment:
       SWAGGER_JSON: /api.yaml
       # API_URL: ""
+    depends_on:
+      - app
+    networks:
+      - fullstack
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PWD}
+      #MONGO_INITDB_DATABASE: ${MONGO_INITDB}
+    ports:
+      - 27017-27019:27017-27019
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - fullstack
+
+  postman_checks:
+    container_name: restful_checks
+    build: integ-tests
+    image: mewman_checks
+    command:
+      run places-API.postman_collection.json
+      #-r html,cli
+      #--reporter-html-export reports/Restful_Test_Run.html
+      #--reporter-html-template reports/templates/customTemplate.hbs
+    environment:
+      MONGO_CONNECTION_STRING: mongodb://integUser:integPass@127.0.0.1:27017/weatherIntegDb
+    volumes:
+      - ./src:/etc/newman
+    depends_on:
+      - app
     networks:
       - fullstack
 
@@ -49,7 +93,3 @@ volumes:
   # database_postgres:                # Uncomment this when using postgres.
   # database_mysql:                   # Uncomment this when using mysql.
 
-# Networks to be created to facilitate communication between containers
-networks:
-  fullstack:
-    driver: bridge

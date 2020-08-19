@@ -12,6 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readconcern"
 	"go.mongodb.org/mongo-driver/mongo/writeconcern"
+	"os"
 	"time"
 )
 
@@ -40,9 +41,11 @@ type StorageClientImpl struct {
 }
 
 func NewStorageClient(mongoClient *mongo.Client) StorageClient {
+	mongoDB := os.Getenv("MONGO_DB") // test
+	log.Info().Msgf("using db : %s", mongoDB)
 	return &StorageClientImpl{
 		MongoClient: mongoClient,
-		dbName:      "test", //FIXME this should come from ENV
+		dbName:      mongoDB,
 	}
 }
 

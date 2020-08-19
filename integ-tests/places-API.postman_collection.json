@@ -1,0 +1,416 @@
+{
+	"info": {
+		"_postman_id": "cca1ba38-14b9-44b2-ad7f-112ee00a2e9e",
+		"name": "Places API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "v1 GET locations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ad757aa4-64f6-4881-ad6a-6625a8c0a601",
+						"exec": [
+							"pm.test(\"Request should succeed\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/locations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "v1 GET regions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "83e66300-9b3f-4932-baa0-aeab86224bd8",
+						"exec": [
+							"pm.test(\"Request should succeed\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/regions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"regions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Populate regions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aa4b6cb2-6c65-47a7-8809-0a369d74b52a",
+						"exec": [
+							"pm.test(\"Request should succeed\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v2/seed/regions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v2",
+						"seed",
+						"regions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Populate locations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f51a9a56-7ed3-4a2a-a95a-a3eed7d06a7f",
+						"exec": [
+							"pm.test(\"Request should succeed\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v2/seed/locations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v2",
+						"seed",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "v2 GET locations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2fe0c6ca-03b3-4584-a418-5526af351d94",
+						"exec": [
+							"pm.test(\"Request should succeed\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v2/locations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v2",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "v2 GET regions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b0bf03d-8190-4b51-9071-049bcc8b2e97",
+						"exec": [
+							"pm.test(\"Request should succeed\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v2/regions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v2",
+						"regions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "v2 GET region/id - invalid id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b0bf03d-8190-4b51-9071-049bcc8b2e97",
+						"exec": [
+							"pm.test(\"Request should succeed\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v2/region/foobar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v2",
+						"region",
+						"foobar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "v2 GET region/id - valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b0bf03d-8190-4b51-9071-049bcc8b2e97",
+						"exec": [
+							"pm.test(\"Request should return invalid input\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v2/region/5f3174cfebf5e60374c201b6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v2",
+						"region",
+						"5f3174cfebf5e60374c201b6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "v2 DELETE region/id - valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b0bf03d-8190-4b51-9071-049bcc8b2e97",
+						"exec": [
+							"pm.test(\"Request should succeed\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v2/region/5f3174cfebf5e60374c201b6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v2",
+						"region",
+						"5f3174cfebf5e60374c201b6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "v2 DELETE region/id - invalid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b0bf03d-8190-4b51-9071-049bcc8b2e97",
+						"exec": [
+							"pm.test(\"Request should succeed\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v2/region/foo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v2",
+						"region",
+						"foo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "v2 CREATE region/id - valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b0bf03d-8190-4b51-9071-049bcc8b2e97",
+						"exec": [
+							"pm.test(\"Request should succeed\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"snowqualmie_region\",\n    \"searchKey\": \"123\",\n    \"description\" : \"snowqualmie_region\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/v2/regions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v2",
+						"regions"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "snowqualmie_region",
+							"disabled": true
+						},
+						{
+							"key": "searchKey",
+							"value": "04d37e830680c65b61df474e7e655d64",
+							"disabled": true
+						},
+						{
+							"key": "description",
+							"value": "Snowqualmie Region",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
