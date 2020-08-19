@@ -43,7 +43,7 @@ COPY --from=builder /go/src/github.com/gadzooks/weather-go-api/weather-api .
 COPY --from=builder /go/src/github.com/gadzooks/weather-go-api/data ./data/
 COPY --from=builder /go/src/github.com/gadzooks/weather-go-api/.env .
 
-# Expose port 8080 to the outside world
+# Expose port 8080 to other containers in the same network but NOT outside world
 EXPOSE 8080
 
 #Command to run the executable

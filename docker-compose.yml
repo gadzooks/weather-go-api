@@ -9,6 +9,9 @@ services:
   app:
     container_name: weather_config
     build: . # dir where Dockerfile is located
+
+    # ports : Activates the container to listen for specified port(s) from the world outside of the docker
+    # (can be same host machine or a different machine) AND also accessible world inside docker.
     ports:
       - 8080:8080
     #restart: on-failure
@@ -20,6 +23,7 @@ services:
       # - fullstack-mysql           # Uncomment this when using mysql.
     environment:
       MONGO_DB: weatherIntegDb
+      MONGO_CONNECTION_STRING: mongodb://integUser:integPass@mongodb:27017/test
     networks:
       - fullstack
 
@@ -66,7 +70,7 @@ services:
     environment:
       MONGO_CONNECTION_STRING: mongodb://integUser:integPass@127.0.0.1:27017/weatherIntegDb
     volumes:
-      - ./src:/etc/newman
+      - ./integ-tests:/etc/newman
     depends_on:
       - app
     networks:
