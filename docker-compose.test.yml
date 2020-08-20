@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  app:
+    environment:
+      MONGO_CONNECTION_STRING: mongodb://integUser:integPass@mongodb-service:27017/test
+
+  postman_checks:
+    container_name: postman_checks
+    build: integ-tests
+    image: mewman_checks
+    command:
+      run places-API.postman_collection.json
+      -e localhost.postman_environment.json
+      #-r html,cli
+    #--reporter-html-export reports/Restful_Test_Run.html
+    #--reporter-html-template reports/templates/customTemplate.hbs
+    environment:
+      MONGO_CONNECTION_STRING: mongodb://integUser:integPass@127.0.0.1:27017/weatherIntegDb
+    volumes:
+      - ./integ-tests:/etc/newman
+    depends_on:
+      - app
+    networks:
+      - fullstack

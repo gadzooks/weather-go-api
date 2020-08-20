@@ -108,6 +108,10 @@ type Region struct {
 ```
 
 #### Testing
+- integ testing using local mongo, postman and newman
+```shell script
+docker-compose -f docker-compose.yml -f docker-compose.test.yml up postman_checks
+```
 - we use gomock and mocken
 ```shell script
 # to install
