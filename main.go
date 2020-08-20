@@ -47,9 +47,21 @@ func main() {
 	handler = middleware.WithResponseTimeLogging(handler)
 	handler = middleware.WithRequestIdInLogger(handler)
 
+	bindIp, found := os.LookupEnv("WEATHER_BINDING_IP")
+	if !found {
+		bindIp = "0.0.0.0"
+	}
+
+	bindPort, found := os.LookupEnv("WEATHER_BINDING_PORT")
+	if !found {
+		bindPort = "8081"
+	}
+
+	addr := fmt.Sprintf("%s:%s", bindIp, bindPort)
+
 	srv := &http.Server{
 		Handler: handler,
-		Addr:    "127.0.0.1:8080",
+		Addr:    addr,
 		// Good practice: enforce timeouts for servers you create!
 		WriteTimeout: time.Second * 15,
 		ReadTimeout:  time.Second * 15,
@@ -58,7 +70,7 @@ func main() {
 
 	// Run our server in a goroutine so that it doesn't block.
 	go func() {
-		log.Info().Msg("starting server at 8080")
+		log.Info().Msgf("starting server at %s", addr)
 		if err := srv.ListenAndServe(); err != nil {
 			log.Error().Msg(err.Error())
 		}

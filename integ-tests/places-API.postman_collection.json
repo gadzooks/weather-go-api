@@ -25,12 +25,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{baseUrl}}:8080/v1/locations",
+					"raw": "http://{{baseUrl}}:8081/v1/locations",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"v1",
 						"locations"
@@ -59,12 +59,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{baseUrl}}:8080/v1/regions",
+					"raw": "http://{{baseUrl}}:8081/v1/regions",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"v1",
 						"regions"
@@ -93,12 +93,12 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://{{baseUrl}}:8080/v2/seed/regions",
+					"raw": "http://{{baseUrl}}:8081/v2/seed/regions",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"v2",
 						"seed",
@@ -128,12 +128,12 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://{{baseUrl}}:8080/v2/seed/locations",
+					"raw": "http://{{baseUrl}}:8081/v2/seed/locations",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"v2",
 						"seed",
@@ -165,12 +165,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{baseUrl}}:8080/v2/locations",
+					"raw": "http://{{baseUrl}}:8081/v2/locations",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"v2",
 						"locations"
@@ -201,12 +201,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{baseUrl}}:8080/v2/regions",
+					"raw": "http://{{baseUrl}}:8081/v2/regions",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"v2",
 						"regions"
@@ -235,12 +235,12 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://{{baseUrl}}:8080/v2/region/foobar",
+					"raw": "http://{{baseUrl}}:8081/v2/region/foobar",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"v2",
 						"region",
@@ -270,12 +270,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{baseUrl}}:8080/v2/region/{{allRegions}}",
+					"raw": "http://{{baseUrl}}:8081/v2/region/{{allRegions}}",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"v2",
 						"region",
@@ -305,12 +305,12 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://{{baseUrl}}:8080/v2/region/5f34afd8f7bbe46dc7fd91e2",
+					"raw": "http://{{baseUrl}}:8081/v2/region/5f34afd8f7bbe46dc7fd91e2",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"v2",
 						"region",
@@ -340,12 +340,12 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://{{baseUrl}}:8080/v2/region/foo",
+					"raw": "http://{{baseUrl}}:8081/v2/region/foo",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"v2",
 						"region",
@@ -384,12 +384,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{baseUrl}}:8080/v2/regions",
+					"raw": "http://{{baseUrl}}:8081/v2/regions",
 					"protocol": "http",
 					"host": [
 						"{{baseUrl}}"
 					],
-					"port": "8080",
+					"port": "8081",
 					"path": [
 						"v2",
 						"regions"
