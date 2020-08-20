@@ -101,6 +101,7 @@ func main() {
 func buildMongoUri() string {
 	uri, found := os.LookupEnv("MONGO_CONNECTION_STRING")
 	if found {
+		log.Debug().Msgf("using mongo connection string : %s", uri)
 		return uri
 	}
 
@@ -129,8 +130,8 @@ func buildMongoUri() string {
 		mongoDB,
 	)
 
-	uri = "mongodb://integUser:integPass@127.0.0.1:27017/test"
-	uri = "mongodb://integUser:integPass@mongodb:27017/test"
+	//uri = "mongodb://integUser:integPass@127.0.0.1:27017/test"
+	//uri = "mongodb://integUser:integPass@mongodb:27017/test"
 	return uri
 }
 

@@ -18,12 +18,12 @@ services:
     volumes:
       - api:/usr/src/app/
     depends_on:
-      - mongodb
+      - mongodb-service
       # - fullstack-postgres          # Uncomment this when using postgres.
       # - fullstack-mysql           # Uncomment this when using mysql.
     environment:
       MONGO_DB: weatherIntegDb
-      MONGO_CONNECTION_STRING: mongodb://integUser:integPass@mongodb:27017/test
+      MONGO_CONNECTION_STRING: mongodb://integUser:integPass@mongodb-service:27017/test
       WEATHER_BINDING_PORT: 8080
     networks:
       - fullstack
@@ -44,7 +44,7 @@ services:
     networks:
       - fullstack
 
-  mongodb:
+  mongodb-service:
     image: mongo:latest
     container_name: mongodb
     restart: always
