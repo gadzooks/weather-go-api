@@ -4,6 +4,8 @@ Sample REST Go api to get locations and regions to be used by Ruby on Rails weat
 
 ## Goals of this service
 Create sample CRUD REST api in Go which has :
+- Go REST api and its dependencies like mongodb, run locally via docker-compose
+- Integ testing via newman and docker-compose up postman_checks
 - Follow REST naming conventions
 - Use swagger for documentation
 - Well defined interfaces for model, domain, controller
@@ -13,9 +15,16 @@ Create sample CRUD REST api in Go which has :
 
 ## Design Patterns / Best practices
 
-### Use `docker-compose` to build and run `go service` and `swagger`
+### Use `docker-compose` to build and run `go service`, `mongodb`, `swagger` and `newman`
 - https://github.com/gadzooks/weather-go-api/blob/master/docker-compose.yml
 - https://github.com/gadzooks/weather-go-api/blob/master/Dockerfile
+```shell script
+# start REST api and its dependency mongodb
+docker-compose up app
+
+# run integ tests via newman
+docker-compose up postman_check
+```
 
 #### Use middleware to handle tasks like CORS, logging request performance etc
 ```go
@@ -112,6 +121,10 @@ type Region struct {
 ```
 
 #### Testing
+- integ testing using local mongo, postman and newman
+```shell script
+docker-compose -f docker-compose.yml -f docker-compose.test.yml up postman_checks
+```
 - we use gomock and mocken
 ```shell script
 # to install

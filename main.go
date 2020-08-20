@@ -47,9 +47,21 @@ func main() {
 	handler = middleware.WithResponseTimeLogging(handler)
 	handler = middleware.WithRequestIdInLogger(handler)
 
+	bindIp, found := os.LookupEnv("WEATHER_BINDING_IP")
+	if !found {
+		bindIp = "127.0.0.1"
+	}
+
+	bindPort, found := os.LookupEnv("WEATHER_BINDING_PORT")
+	if !found {
+		bindPort = "8080"
+	}
+
+	addr := fmt.Sprintf("%s:%s", bindIp, bindPort)
+
 	srv := &http.Server{
 		Handler: handler,
-		Addr:    "127.0.0.1:8080",
+		Addr:    addr,
 		// Good practice: enforce timeouts for servers you create!
 		WriteTimeout: time.Second * 15,
 		ReadTimeout:  time.Second * 15,
@@ -58,7 +70,7 @@ func main() {
 
 	// Run our server in a goroutine so that it doesn't block.
 	go func() {
-		log.Info().Msg("starting server at 8080")
+		log.Info().Msgf("starting server at %s", addr)
 		if err := srv.ListenAndServe(); err != nil {
 			log.Error().Msg(err.Error())
 		}
@@ -86,17 +98,49 @@ func main() {
 	os.Exit(0)
 }
 
-func mongoConnect(ctx context.Context) *mongo.Client {
-	mongoUser := os.Getenv("MONGO_USER")
+func buildMongoUri() string {
+	uri, found := os.LookupEnv("MONGO_CONNECTION_STRING")
+	if found {
+		log.Debug().Msgf("using mongo connection string : %s", uri)
+		return uri
+	}
+
+	mongoConnectPrefix, found := os.LookupEnv("MONGO_PREFIX")
+	if !found {
+		mongoConnectPrefix = "mongodb+srv"
+	}
+
+	mongoUser, _ := os.LookupEnv("MONGO_USER") //weather-dev
+	if !found {
+		mongoUser = "weather-dev"
+	}
 	mongoPass := os.Getenv("MONGO_PWD")
-	mongoDB := os.Getenv("MONGO_DB")
-	uri := fmt.Sprintf(
-		"mongodb+srv://%s:%s@weather-uqgvj.mongodb.net/%s?authSource=admin&replicaSet=Weather-shard-0&readPreference=primary",
+	mongoDB, found := os.LookupEnv("MONGO_DB")
+	if !found {
+		mongoDB = "weatherDevDb"
+	}
+	mongoUri, found := os.LookupEnv("MONGO_SERVER_URI")
+	if !found {
+		mongoUri = "weather-uqgvj.mongodb.net"
+	}
+
+	uri = fmt.Sprintf(
+		"%s://%s:%s@%s/%s?authSource=admin&readPreference=primary",
+		mongoConnectPrefix,
 		mongoUser,
 		mongoPass,
+		mongoUri,
 		mongoDB,
 	)
-	log.Info().Msgf("connecting via : %s", uri)
+
+	//uri = "mongodb://integUser:integPass@127.0.0.1:27017/test"
+	//uri = "mongodb://integUser:integPass@mongodb:27017/test"
+	return uri
+}
+
+func mongoConnect(ctx context.Context) *mongo.Client {
+	uri := buildMongoUri()
+	log.Info().Msgf("connecting to mongo uri : %s", uri)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
 	if err != nil {
 		log.Fatal().Msg(err.Error())

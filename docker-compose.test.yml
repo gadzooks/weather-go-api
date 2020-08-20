@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  app:
+    environment:
+      MONGO_CONNECTION_STRING: mongodb://integUser:integPass@mongodb-service:27017/test
+      WEATHER_BINDING_IP: 0.0.0.0
+    depends_on:
+      - mongodb-service
+
+  postman_checks:
+    container_name: postman_checks
+    build: integ-tests
+    image: mewman_checks
+    command:
+      run places-API.postman_collection.json
+      -e localhost.postman_environment.json
+      #-r html,cli
+    #--reporter-html-export reports/Restful_Test_Run.html
+    #--reporter-html-template reports/templates/customTemplate.hbs
+    environment:
+      MONGO_CONNECTION_STRING: mongodb://integUser:integPass@127.0.0.1:27017/weatherIntegDb
+    volumes:
+      - ./integ-tests:/etc/newman
+    depends_on:
+      - app
+    networks:
+      - fullstack
+
+  mongodb-service:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PWD}
+      #MONGO_INITDB_DATABASE: ${MONGO_INITDB}
+    ports:
+      - 27017-27019:27017-27019
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - fullstack

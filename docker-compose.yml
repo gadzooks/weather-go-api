@@ -1,16 +1,30 @@
 version: '3'
+
+# Networks to be created to facilitate communication between containers
+networks:
+  fullstack:
+    driver: bridge
+
 services:
   app:
-    container_name: weather_config
+    container_name: app
     build: . # dir where Dockerfile is located
+
+    # ports : Activates the container to listen for specified port(s) from the world outside of the docker
+    # (can be same host machine or a different machine) AND also accessible world inside docker.
     ports:
       - 8080:8080
     restart: on-failure
     volumes:
       - api:/usr/src/app/
     #depends_on:
-      # - fullstack-postgres          # Uncomment this when using postgres.
+      # - fullstack-postgres        # Uncomment this when using postgres.
       # - fullstack-mysql           # Uncomment this when using mysql.
+    environment:
+      MONGO_DB: weatherIntegDb
+      WEATHER_BINDING_PORT: 8080
+    env_file:
+      - .env
     networks:
       - fullstack
 
@@ -25,8 +39,11 @@ services:
     environment:
       SWAGGER_JSON: /api.yaml
       # API_URL: ""
+    depends_on:
+      - app
     networks:
       - fullstack
+
 
   # fullstack-mysql:
   #   image: mysql:5.7
@@ -48,8 +65,3 @@ volumes:
   api:
   # database_postgres:                # Uncomment this when using postgres.
   # database_mysql:                   # Uncomment this when using mysql.
-
-# Networks to be created to facilitate communication between containers
-networks:
-  fullstack:
-    driver: bridge

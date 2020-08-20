@@ -108,8 +108,8 @@ func (ctrl PlaceControllerImpl) DeleteRegion(w http.ResponseWriter, r *http.Requ
 // Seed regions with default data
 func (ctrl PlaceControllerImpl) SeedRegions(w http.ResponseWriter, r *http.Request) {
 	utils.SetLoggerWithRequestId(r.Context())
-	log.Info().Msg("SeedRegions")
 	regions, err := ctrl.v1Svc.GetRegions()
+	log.Info().Msgf("SeedRegions with : %v", regions)
 	if err != nil {
 		controller.HandleServiceResponse(w, regions, err)
 	} else {
