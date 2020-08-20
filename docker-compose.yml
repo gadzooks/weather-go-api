@@ -7,7 +7,7 @@ networks:
 
 services:
   app:
-    container_name: weather_config
+    container_name: app
     build: . # dir where Dockerfile is located
 
     # ports : Activates the container to listen for specified port(s) from the world outside of the docker
@@ -59,11 +59,12 @@ services:
       - fullstack
 
   postman_checks:
-    container_name: restful_checks
+    container_name: postman_checks
     build: integ-tests
     image: mewman_checks
     command:
       run places-API.postman_collection.json
+      -e localhost.postman_environment.json
       #-r html,cli
       #--reporter-html-export reports/Restful_Test_Run.html
       #--reporter-html-template reports/templates/customTemplate.hbs
@@ -96,4 +97,3 @@ volumes:
   api:
   # database_postgres:                # Uncomment this when using postgres.
   # database_mysql:                   # Uncomment this when using mysql.
-

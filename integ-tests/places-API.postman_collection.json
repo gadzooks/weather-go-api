@@ -25,10 +25,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v1/locations",
+					"raw": "http://{{baseUrl}}:8080/v1/locations",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
 					"port": "8080",
 					"path": [
@@ -59,10 +59,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v1/regions",
+					"raw": "http://{{baseUrl}}:8080/v1/regions",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
 					"port": "8080",
 					"path": [
@@ -93,10 +93,10 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v2/seed/regions",
+					"raw": "http://{{baseUrl}}:8080/v2/seed/regions",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
 					"port": "8080",
 					"path": [
@@ -128,10 +128,10 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v2/seed/locations",
+					"raw": "http://{{baseUrl}}:8080/v2/seed/locations",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
 					"port": "8080",
 					"path": [
@@ -153,6 +153,8 @@
 						"exec": [
 							"pm.test(\"Request should succeed\", function () {",
 							"    pm.response.to.have.status(200);",
+							"    var jsonData = JSON.parse(responseBody);",
+							"    postman.setEnvironmentVariable(\"allLocations\", jsonData[0]);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -163,10 +165,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v2/locations",
+					"raw": "http://{{baseUrl}}:8080/v2/locations",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
 					"port": "8080",
 					"path": [
@@ -187,6 +189,8 @@
 						"exec": [
 							"pm.test(\"Request should succeed\", function () {",
 							"    pm.response.to.have.status(200);",
+							"    var jsonData = JSON.parse(responseBody);",
+							"    postman.setEnvironmentVariable(\"allRegions\", jsonData[0]);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -197,10 +201,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v2/regions",
+					"raw": "http://{{baseUrl}}:8080/v2/regions",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
 					"port": "8080",
 					"path": [
@@ -219,8 +223,8 @@
 					"script": {
 						"id": "0b0bf03d-8190-4b51-9071-049bcc8b2e97",
 						"exec": [
-							"pm.test(\"Request should succeed\", function () {",
-							"    pm.response.to.have.status(200);",
+							"pm.test(\"Request should not succeed\", function () {",
+							"    pm.response.to.have.status(400);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -228,13 +232,13 @@
 				}
 			],
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v2/region/foobar",
+					"raw": "http://{{baseUrl}}:8080/v2/region/foobar",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
 					"port": "8080",
 					"path": [
@@ -254,8 +258,8 @@
 					"script": {
 						"id": "0b0bf03d-8190-4b51-9071-049bcc8b2e97",
 						"exec": [
-							"pm.test(\"Request should return invalid input\", function () {",
-							"    pm.response.to.have.status(400);",
+							"pm.test(\"Request should return valid input\", function () {",
+							"    pm.response.to.have.status(200);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -266,16 +270,16 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v2/region/5f3174cfebf5e60374c201b6",
+					"raw": "http://{{baseUrl}}:8080/v2/region/{{allRegions}}",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
 					"port": "8080",
 					"path": [
 						"v2",
 						"region",
-						"5f3174cfebf5e60374c201b6"
+						"{{allRegions}}"
 					]
 				}
 			},
@@ -301,16 +305,16 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v2/region/5f3174cfebf5e60374c201b6",
+					"raw": "http://{{baseUrl}}:8080/v2/region/5f34afd8f7bbe46dc7fd91e2",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
 					"port": "8080",
 					"path": [
 						"v2",
 						"region",
-						"5f3174cfebf5e60374c201b6"
+						"5f34afd8f7bbe46dc7fd91e2"
 					]
 				}
 			},
@@ -336,10 +340,10 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/v2/region/foo",
+					"raw": "http://{{baseUrl}}:8080/v2/region/foo",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
 					"port": "8080",
 					"path": [
@@ -380,10 +384,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/v2/regions",
+					"raw": "http://{{baseUrl}}:8080/v2/regions",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
 					"port": "8080",
 					"path": [
@@ -410,6 +414,40 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a30c24f9-5cfb-4fd1-8f82-aad98f7244d0",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "9fa924c1-a771-4085-8217-4eb968f2b993",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "dffc8693-4cc0-4142-889a-3144bb8d6d82",
+			"key": "allRegions",
+			"value": null
+		},
+		{
+			"id": "5ccd427c-0252-4bf8-8514-7af459c08d58",
+			"key": "allLocations",
+			"value": ""
 		}
 	],
 	"protocolProfileBehavior": {}
