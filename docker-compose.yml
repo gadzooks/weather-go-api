@@ -13,7 +13,7 @@ services:
     # ports : Activates the container to listen for specified port(s) from the world outside of the docker
     # (can be same host machine or a different machine) AND also accessible world inside docker.
     ports:
-      - 8080:8081
+      - 8080:8080
     #restart: on-failure
     volumes:
       - api:/usr/src/app/
@@ -24,6 +24,7 @@ services:
     environment:
       MONGO_DB: weatherIntegDb
       MONGO_CONNECTION_STRING: mongodb://integUser:integPass@mongodb:27017/test
+      WEATHER_BINDING_PORT: 8080
     networks:
       - fullstack
 

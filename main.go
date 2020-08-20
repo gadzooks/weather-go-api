@@ -54,7 +54,7 @@ func main() {
 
 	bindPort, found := os.LookupEnv("WEATHER_BINDING_PORT")
 	if !found {
-		bindPort = "8081"
+		bindPort = "8080"
 	}
 
 	addr := fmt.Sprintf("%s:%s", bindIp, bindPort)
