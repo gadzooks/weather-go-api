@@ -49,7 +49,7 @@ func main() {
 
 	bindIp, found := os.LookupEnv("WEATHER_BINDING_IP")
 	if !found {
-		bindIp = "0.0.0.0"
+		bindIp = "127.0.0.1"
 	}
 
 	bindPort, found := os.LookupEnv("WEATHER_BINDING_PORT")

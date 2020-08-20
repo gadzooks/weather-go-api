@@ -4,6 +4,7 @@ services:
   app:
     environment:
       MONGO_CONNECTION_STRING: mongodb://integUser:integPass@mongodb-service:27017/test
+      WEATHER_BINDING_IP: 0.0.0.0
     depends_on:
       - mongodb-service
 
