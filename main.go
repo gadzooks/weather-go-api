@@ -110,13 +110,16 @@ func buildMongoUri() string {
 		mongoConnectPrefix = "mongodb+srv"
 	}
 
-	mongoUser, found := os.LookupEnv("MONGO_USER") //weather-dev
+	mongoUser, _ := os.LookupEnv("MONGO_USER") //weather-dev
 	if !found {
 		mongoUser = "weather-dev"
 	}
 	mongoPass := os.Getenv("MONGO_PWD")
-	mongoDB := os.Getenv("MONGO_DB")
-	mongoUri, found := os.LookupEnv("MONGO_URI")
+	mongoDB, found := os.LookupEnv("MONGO_DB")
+	if !found {
+		mongoDB = "weatherDevDb"
+	}
+	mongoUri, found := os.LookupEnv("MONGO_SERVER_URI")
 	if !found {
 		mongoUri = "weather-uqgvj.mongodb.net"
 	}

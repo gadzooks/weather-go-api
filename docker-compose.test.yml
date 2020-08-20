@@ -4,6 +4,8 @@ services:
   app:
     environment:
       MONGO_CONNECTION_STRING: mongodb://integUser:integPass@mongodb-service:27017/test
+    depends_on:
+      - mongodb-service
 
   postman_checks:
     container_name: postman_checks
@@ -21,5 +23,20 @@ services:
       - ./integ-tests:/etc/newman
     depends_on:
       - app
+    networks:
+      - fullstack
+
+  mongodb-service:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PWD}
+      #MONGO_INITDB_DATABASE: ${MONGO_INITDB}
+    ports:
+      - 27017-27019:27017-27019
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
       - fullstack

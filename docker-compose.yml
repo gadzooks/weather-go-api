@@ -14,16 +14,17 @@ services:
     # (can be same host machine or a different machine) AND also accessible world inside docker.
     ports:
       - 8080:8080
-    #restart: on-failure
+    restart: on-failure
     volumes:
       - api:/usr/src/app/
-    depends_on:
-      - mongodb-service
+    #depends_on:
       # - fullstack-postgres        # Uncomment this when using postgres.
       # - fullstack-mysql           # Uncomment this when using mysql.
     environment:
       MONGO_DB: weatherIntegDb
       WEATHER_BINDING_PORT: 8080
+    env_file:
+      - .env
     networks:
       - fullstack
 
@@ -43,20 +44,6 @@ services:
     networks:
       - fullstack
 
-  mongodb-service:
-    image: mongo:latest
-    container_name: mongodb
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PWD}
-      #MONGO_INITDB_DATABASE: ${MONGO_INITDB}
-    ports:
-      - 27017-27019:27017-27019
-    volumes:
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-    networks:
-      - fullstack
 
   # fullstack-mysql:
   #   image: mysql:5.7
