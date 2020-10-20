@@ -3,7 +3,7 @@
 Sample REST Go api to get locations and regions to be used by Ruby on Rails weather website.
 
 ## Goals of this service
-Create sample CRUD REST api in Go which has :
+Create sample CRUD REST api in Go with :
 - Go REST api and its dependencies like mongodb, run locally via docker-compose
 - Integ testing via newman and docker-compose up postman_checks
 - Follow REST naming conventions
@@ -12,6 +12,7 @@ Create sample CRUD REST api in Go which has :
 - All commands can be run via Makefile targets
 - Deploy service and swagger docs via docker
 - Code coverage, unit and integration tests
+- Versioning based on routes. Example - GET /v1/regions vs GET /v2/regions/
 
 ## Design Patterns / Best practices
 
@@ -118,6 +119,22 @@ type Region struct {
 	SearchKey   string `json:"searchKey"`
 	Description string `json:"description"`
 }
+```
+
+#### Use type aliasing for common types across versions
+```go
+// Create type alias so we can reuse the models since they dont change between versions
+type Location = model.Location
+type Region = model.Region
+```
+
+#### Create custom error types 
+```go
+// from https://blog.golang.org/go1.13-errors
+// allows callers to do something like this :
+// if err := pkg.DoSomething(); errors.Is(err, pkg.InvalidInputError) { ... }
+var InvalidInputError = errors.New("InvalidInputError")
+var NotFoundError = errors.New("NotFoundError")
 ```
 
 #### Testing
